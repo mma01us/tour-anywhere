@@ -1,0 +1,29 @@
+{
+  "name": "tour-anywhere",
+  "version": "0.0.0",
+  "description": "Web App for editing tours accessible with the TourAnywhere Android App",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mma01us/tour-anywhere"
+  },
+  "author": "Michael Ma <mma01us@gmail.com>",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.6.1",
+    "express": "~3.2.4",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.2.15",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "request": "^2.88.0",
+    "simple-oauth2": "^2.2.1"
+  }
+}
