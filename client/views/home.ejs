@@ -16,35 +16,35 @@
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
     <div class="page-header text-center">
-        <h1 class="display-1">My Tours</h1>
+        <h1 class="display-4">My Tours</h1>
+    </div>
+    
+    <div id="buttons" style="padding-bottom:20px">
+        <a href="/create" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> New Tour</a>
     </div>
 
     <div class="row">
         <div class="list-group">
+            <% tours.foreach(function showitem(tour) {%>
+               <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><%= tour.name %></h5>
+                        <small>Last edited <%= tour.lastEdit %></small>
+                    </div>
+                    <p class="mb-1"><%= tour.exhibits.length %> Exhibits.</p>
+                    <small>0 Reports.</small>
+                </a>
+            <% }); %>
+            <!-- sample template of tour list item
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Tour Name</h5>
                     <small>Last edited 3 days ago</small>
                 </div>
-                <p class="mb-1">300 visits.</p>
+                <p class="mb-1">20 Exhibits.</p>
                 <small>0 Reports.</small>
             </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Tour Name</h5>
-                    <small>Last edited 3 days ago</small>
-                </div>
-                <p class="mb-1">300 visits.</p>
-                <small>0 Reports.</small>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Tour Name</h5>
-                    <small>Last edited 3 days ago</small>
-                </div>
-                <p class="mb-1">300 visits.</p>
-                <small>0 Reports.</small>
-            </a>
+            -->
         </div>
     </div>
 

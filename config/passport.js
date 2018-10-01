@@ -56,7 +56,7 @@ module.exports = function(passport) {
 
             // check to see if theres already a user with that email
             if (user) {
-                return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                return done(null, false, req.flash('signupMessage', 'There is already a user with that email.'));
             } else {
 
                 // if there is no user with that email
@@ -101,7 +101,7 @@ module.exports = function(passport) {
             // if there are any errors, return the error before anything else
             if (err)
                 return done(err);
-
+            
             // if no user is found, return the message
             if (!user)
                 return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
