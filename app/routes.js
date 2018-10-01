@@ -52,9 +52,7 @@ module.exports = function(app, passport) {
         var tours = mongoose.model('Tour');
         tours.find({ uid: req.user._id}, function (err, docs) {
             // if there are any errors, return the error before anything else
-            if (err)
-                return err;
-            if (!docs){
+            if (err || !docs){
                 res.render('../client/views/getstarted.ejs', {
                     user : req.user
                 });
@@ -82,7 +80,7 @@ module.exports = function(app, passport) {
         
         if(dd<10) dd = '0'+dd;
         
-        if(mm<10) mm = '0'+mm; 
+        if(mm<10) mm = '0'+mm;
         
         today = mm + '/' + dd + '/' + yyyy;
         
@@ -97,8 +95,11 @@ module.exports = function(app, passport) {
             
         //Add address to geocoordinates
             
-        Tour.create({ uid : req.user, name : n, description : desc, longitude : 0, latitude : 0, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : today }, function (err, small) {
-            if (err) return err;
+        Tour.create({ uid : req.user_id, name : n, description : desc, longitude : 0, latitude : 0, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : today }, function (err, small) {
+            if (err){
+                console.log(err);
+                return err;
+            }
             // saved!
             res.redirect('/home');
         });

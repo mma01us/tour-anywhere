@@ -139,7 +139,6 @@ module.exports = function(passport) {
                     return done(err);
 
                 if (user) {
-
                     // if a user is found, log them in
                     return done(null, user);
                 } else {
@@ -151,7 +150,7 @@ module.exports = function(passport) {
                     newUser.google.token = token;
                     newUser.google.name  = profile.displayName;
                     newUser.google.email = profile.emails[0].value; // pull the first email
-
+                    
                     // save the user
                     newUser.save(function(err) {
                         if (err)
