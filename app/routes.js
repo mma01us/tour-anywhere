@@ -87,17 +87,16 @@ module.exports = function(app, passport) {
         
         var n = req.body.name,
             desc = req.body.desc,
-            addr1 = req.body.address1,
-            addr2 = req.body.address2,
-            city = req.body.city,
-            state = req.body.state,
-            zip = req.body.zip,
+            address1 = req.body.address1,
+            address2 = req.body.address2,
+            city1 = req.body.city,
+            state1 = req.body.state,
+            zip1 = req.body.zip,
             priv = req.body.privacy;
             
-        //Add address to geocoordinates
         console.log(req.user._id);
             
-        Tour.create({ uid : req.user._id, name : n, description : desc, longitude : 0, latitude : 0, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : today }, function (err, small) {
+        Tour.create({ uid : req.user._id, name : n, description : desc, addr1 : address1, addr2 : address2, city : city1, state : state1, zip : zip1, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : today }, function (err, small) {
             if (err){
                 console.log(err);
                 return err;

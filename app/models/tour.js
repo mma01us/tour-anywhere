@@ -7,8 +7,11 @@ var tourSchema = mongoose.Schema({
     uid         : String,
     name        : String,
     description : String,
-    latitude    : Number,
-    longitude   : Number,
+    addr1       : String,
+    addr2       : String,
+    city        : String,
+    state       : String,
+    zip         : Number,
     rating      : Number,
     privacy     : Number,
     exhibits    : [{
