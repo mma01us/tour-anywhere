@@ -25,24 +25,24 @@
 
     <div class="row">
         <div class="list-group">
-            <% tours.foreach(function showitem(tour) {%>
+            <% tours.forEach(function showitem(tour) {%>
                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= tour.name %></h5>
-                        <small>Last edited <%= tour.lastEdit %></small>
+                        <small><%= tour.exhibits.length %> Exhibits.</small>
                     </div>
-                    <p class="mb-1"><%= tour.exhibits.length %> Exhibits.</p>
-                    <small>0 Reports.</small>
+                    <p class="mb-1"><%= tour.description %></p>
+                    <small>Last edited <%= tour.lastEdit %></small>
                 </a>
             <% }); %>
             <!-- sample template of tour list item
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Tour Name</h5>
-                    <small>Last edited 3 days ago</small>
+                    <small>Number of visits</small>
                 </div>
-                <p class="mb-1">20 Exhibits.</p>
-                <small>0 Reports.</small>
+                <p class="mb-1">Tour description</p>
+                <small>L:ast edited.</small>
             </a>
             -->
         </div>

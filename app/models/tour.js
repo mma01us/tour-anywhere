@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 //Generate schema
 var tourSchema = mongoose.Schema({
     tid         : Number,
-    uid         : Number,
+    uid         : String,
     name        : String,
     description : String,
     latitude    : Number,

@@ -52,7 +52,8 @@ module.exports = function(app, passport) {
         var tours = mongoose.model('Tour');
         tours.find({ uid: req.user._id}, function (err, docs) {
             // if there are any errors, return the error before anything else
-            if (err || !docs){
+            if (err || docs.length == 0){
+                console.log("No tours found");
                 res.render('../client/views/getstarted.ejs', {
                     user : req.user
                 });
@@ -67,11 +68,11 @@ module.exports = function(app, passport) {
         
     });
     //create new tour
-    app.get('/create', function(req,res) {
+    app.get('/create', isLoggedIn, function(req,res) {
         res.render('../client/views/create.ejs');
     });
     //created a tour
-    app.post('/done', function(req,res) {
+    app.post('/done', isLoggedIn, function(req,res) {
         var privacyOptions = ["Private, Hidden, Public"];
         var today = new Date();
         var dd = today.getDate();
@@ -94,8 +95,9 @@ module.exports = function(app, passport) {
             priv = req.body.privacy;
             
         //Add address to geocoordinates
+        console.log(req.user._id);
             
-        Tour.create({ uid : req.user_id, name : n, description : desc, longitude : 0, latitude : 0, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : today }, function (err, small) {
+        Tour.create({ uid : req.user._id, name : n, description : desc, longitude : 0, latitude : 0, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : today }, function (err, small) {
             if (err){
                 console.log(err);
                 return err;
