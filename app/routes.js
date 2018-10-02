@@ -74,16 +74,7 @@ module.exports = function(app, passport) {
     //created a tour
     app.post('/done', isLoggedIn, function(req,res) {
         var privacyOptions = ["Private, Hidden, Public"];
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        
-        if(dd<10) dd = '0'+dd;
-        
-        if(mm<10) mm = '0'+mm;
-        
-        today = mm + '/' + dd + '/' + yyyy;
+        var myDateString = Date();
         
         var n = req.body.name,
             desc = req.body.desc,
@@ -96,7 +87,7 @@ module.exports = function(app, passport) {
             
         console.log(req.user._id);
             
-        Tour.create({ uid : req.user._id, name : n, description : desc, addr1 : address1, addr2 : address2, city : city1, state : state1, zip : zip1, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : today }, function (err, small) {
+        Tour.create({ uid : req.user._id, name : n, description : desc, addr1 : address1, addr2 : address2, city : city1, state : state1, zip : zip1, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : myDateString }, function (err, small) {
             if (err){
                 console.log(err);
                 return err;
