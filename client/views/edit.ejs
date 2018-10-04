@@ -15,11 +15,48 @@
     <div class="page-header text-right">
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
+    <div class="text-left">
+        <a href="/home" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span> Home</a>
+    </div>
     <div class="page-header text-center">
-        <h1 class="display-1">Edit Tour</h1>
+        <h1 class="display-4"><%= tour.name %></h1>
+    </div>
+    
+    <div id="buttons" style="padding-bottom:20px">
+        <a href="/create" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> New Exhibit</a>
     </div>
 
     <div class="row">
+        <div class="list-group">
+            <% if(tour.exhibits.length === 0) {%>
+                <div class="jumbotron jumbotron-fluid" style="text-align: center">
+                  <div class="container">
+                    <h1 class="display-4">No Exhibits</h1>
+                    <p class="lead">Click "New Exhibit" to get started.</p>
+                  </div>
+                </div>
+            <% } %>
+            <% tour.exhibits.forEach(function showitem(exhibit) {%>
+               <a href="edit/<%= tour._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><%= exhibit.name %></h5>
+                        <small>Exhibit ID: <%= exhibit.eid %></small>
+                    </div>
+                    <p class="mb-1"><%= exhibit.tid %></p> <!--type-->
+                    <small>Last edited <%= tour.lastEdit %></small>
+                </a>
+            <% }); %>
+            <!-- sample template of tour list item
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Tour Name</h5>
+                    <small>Number of visits</small>
+                </div>
+                <p class="mb-1">Tour description</p>
+                <small>L:ast edited.</small>
+            </a>
+            -->
+        </div>
     </div>
 
 </div>

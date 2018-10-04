@@ -3,7 +3,6 @@ var mongoose = require("mongoose");
 
 //Generate schema
 var tourSchema = mongoose.Schema({
-    tid         : Number,
     uid         : String,
     name        : String,
     description : String,
@@ -34,7 +33,8 @@ var tourSchema = mongoose.Schema({
             audioLink       : String,
             description     : String,
             transcription   : String
-        }
+        },
+        lastEdit    : Date
     }],
     lastEdit    : Date
 });
