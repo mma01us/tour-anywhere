@@ -4,6 +4,8 @@ var Tour = require('../app/models/tour');
 var mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 
+var privacyOptions = ["Private", "Hidden", "Public"];
+
 module.exports = function(app, passport) {
     
     app.use(bodyParser.urlencoded({
@@ -83,10 +85,30 @@ module.exports = function(app, passport) {
             }
         });
     });
-    app.get()
+    app.get('/toursettings/:id', isLoggedIn, function(req, res){
+        console.log("Tour settings for tour with id " + req.params["id"] + " requested.");
+        var tours = mongoose.model("Tour");
+        tours.find({ _id : req.params["id"], uid : req.user._id }, function (err, docs) {
+            // if there are any errors, return the error before anything else
+            if (err || docs.length == 0){
+                console.log("Tour not found");
+                res.redirect('../client/views/home.ejs');
+            }
+            else {
+                res.render('../client/views/toursettings.ejs', {
+                user : req.user, // get the user out of session and pass to template
+                tour : docs[0]
+                });
+            }
+        });
+    });
     //create new tour
     app.get('/create', isLoggedIn, function(req,res) {
         res.render('../client/views/create.ejs');
+    });
+    //create a new exhibit
+    app.get('/create/exhibit', isLoggedIn, function(req,res) {
+        res.render('../client/views/createexhibit.ejs');
     });
     //created a tour
     app.post('/done', isLoggedIn, function(req,res) {
@@ -113,8 +135,8 @@ module.exports = function(app, passport) {
             res.redirect('/home');
         });
     });
-    app.post('/edittour', isLoggedIn, function(req,res) {
-        var privacyOptions = ["Private, Hidden, Public"];
+    //done creating exhibit
+    app.post('/done/exhibit', isLoggedIn, function(req,res) {
         var myDateString = Date();
         
         var n = req.body.name,
@@ -136,6 +158,41 @@ module.exports = function(app, passport) {
             // saved!
             res.redirect('/home');
         });
+    });
+    app.get('/deletetour/:id', isLoggedIn, function(req, res) {
+        Tour.deleteOne({ _id : req.params["id"], uid : req.user._id }, function (err) {
+          if (err){
+              console.log(err);
+              res.redirect("/edit/" + req.params["id"]);
+              return;
+          }
+          // deleted at most one tour document
+        });
+        res.redirect('/home');
+    });
+    app.post('/edittour/:id', isLoggedIn, function(req,res) {
+        var myDateString = Date();
+        
+        var n = req.body.name,
+            desc = req.body.desc,
+            address1 = req.body.address1,
+            address2 = req.body.address2,
+            city1 = req.body.city,
+            state1 = req.body.state,
+            zip1 = req.body.zip,
+            priv = req.body.privacy;
+        console.log(priv);
+        
+        Tour.updateOne( { _id : req.params["id"], uid : req.user._id }, { name : n, description : desc, addr1 : address1, addr2 : address2, city : city1, state : state1, zip : zip1, privacy : privacyOptions.indexOf(priv), lastEdit : myDateString }, function (err, raw) {
+              if (err) console.log(err);
+              console.log('The raw response from Mongo was ', raw);
+            });
+        
+        res.redirect('/edit/' + req.params["id"]);
+    });
+    
+    app.get('/css/:file', function(req, res){
+        res.sendFile('/home/ubuntu/workspace/client/css/' + req.params["file"]);
     });
     // =====================================
     // LOGOUT ==============================
