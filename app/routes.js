@@ -194,6 +194,10 @@ module.exports = function(app, passport) {
     app.get('/css/:file', function(req, res){
         res.sendFile('/home/ubuntu/workspace/client/css/' + req.params["file"]);
     });
+    
+    app.get('/res/:file', function(req, res){
+        res.sendFile('/home/ubuntu/workspace/client/res/' + req.params["file"]);
+    });
     // =====================================
     // LOGOUT ==============================
     // =====================================
