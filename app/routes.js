@@ -112,7 +112,6 @@ module.exports = function(app, passport) {
     });
     //created a tour
     app.post('/done', isLoggedIn, function(req,res) {
-        var privacyOptions = ["Private, Hidden, Public"];
         var myDateString = Date();
         
         var n = req.body.name,
@@ -133,6 +132,25 @@ module.exports = function(app, passport) {
             }
             // saved!
             res.redirect('/home');
+        });
+    });
+    //done creating exhibit
+    app.post('/createexhibit/customize', isLoggedIn, function(req,res) {
+        var myDateString = Date();
+        
+        var n = req.body.name,
+            tourid = req.body.ID,
+            visibility = req.body.visibility == "yes";
+            
+        console.log(req.user._id);
+            
+        Tour.updateOne( { _id : req.params["id"], uid : req.user._id }, { exhibits : , lastEdit : myDateString }, function (err, raw) {
+              if (err) console.log(err);
+              console.log('The raw response from Mongo was ', raw);
+            });
+            
+            // saved!
+            res.render('/editexhibit');
         });
     });
     //done creating exhibit
@@ -193,6 +211,10 @@ module.exports = function(app, passport) {
     
     app.get('/css/:file', function(req, res){
         res.sendFile('/home/ubuntu/workspace/client/css/' + req.params["file"]);
+    });
+    
+    app.get('/js/:file', function(req, res){
+        res.sendFile('/home/ubuntu/workspace/client/js/' + req.params["file"]);
     });
     
     app.get('/res/:file', function(req, res){
