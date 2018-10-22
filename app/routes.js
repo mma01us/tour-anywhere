@@ -135,7 +135,7 @@ module.exports = function(app, passport) {
         });
     });
     //done creating exhibit
-    app.post('/createexhibit/customize', isLoggedIn, function(req,res) {
+    /*app.post('/createexhibit/customize', isLoggedIn, function(req,res) {
         var myDateString = Date();
         
         var n = req.body.name,
@@ -144,7 +144,7 @@ module.exports = function(app, passport) {
             
         console.log(req.user._id);
             
-        Tour.updateOne( { _id : req.params["id"], uid : req.user._id }, { exhibits : , lastEdit : myDateString }, function (err, raw) {
+        Tour.updateOne( { _id : req.params["id"], uid : req.user._id }, { lastEdit : myDateString }, function (err, raw) {
               if (err) console.log(err);
               console.log('The raw response from Mongo was ', raw);
             });
@@ -152,7 +152,7 @@ module.exports = function(app, passport) {
             // saved!
             res.render('/editexhibit');
         });
-    });
+    });*/
     //done creating exhibit
     app.post('/done/exhibit', isLoggedIn, function(req,res) {
         var myDateString = Date();
