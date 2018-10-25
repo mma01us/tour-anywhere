@@ -28,6 +28,8 @@ module.exports = function(app, passport) {
     // =====================================
     // show the login form
     app.get('/login', function(req, res) {
+        if(req.user != null)
+            res.redirect('/home');
         // render the page and pass in any flash data if it exists
         res.render('../client/views/login.ejs', { message: req.flash('loginMessage') }); 
     });
@@ -40,6 +42,8 @@ module.exports = function(app, passport) {
     // =====================================
     // show the signup form
     app.get('/signup', function(req, res) {
+        if(req.user != null)
+            res.redirect('/home');
         // render the page and pass in any flash data if it exists
         res.render('../client/views/signup.ejs', { message: req.flash('signupMessage') });
     });
