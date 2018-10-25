@@ -1,4 +1,4 @@
-<!-- views/login.ejs -->
+<!-- views/toursettings.ejs -->
 <!doctype html>
 <html>
 <head>
@@ -45,7 +45,7 @@
                 <div class="modal-body">This action cannot be undone.</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href='/deletetour/<%= tour._id %>' class="btn btn-danger">Delete</a>
+                    <a href='/delete/tour/<%= tour._id %>' class="btn btn-danger">Delete</a>
                 </div>
             </div>
             </div>
@@ -65,7 +65,7 @@
         </h1>
     </div>
 
-    <form action='/edittour/<%= tour._id %>' method='post'>
+    <form action='/edit/tour/<%= tour._id %>' method='post'>
         <div class="form-group">
             <label for="tourName">Tour Name</label>
             <input type="text" class="form-control" id="tourName" aria-describedby="nameHelp" placeholder="<%= tour.name %>" value="<%= tour.name %>" name="name">

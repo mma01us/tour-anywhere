@@ -18,6 +18,8 @@ module.exports = function(app, passport) {
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
+        if(req.user != null)
+            res.redirect('/home');
         res.render('../client/views/index.ejs'); // load the index.ejs file
     });
 
@@ -108,7 +110,9 @@ module.exports = function(app, passport) {
     });
     //create a new exhibit
     app.get('/create/exhibit', isLoggedIn, function(req,res) {
-        res.render('../client/views/createexhibit.ejs');
+        res.render('../client/views/createexhibit.ejs', {
+            tour : req.tour
+        });
     });
     //created a tour
     app.post('/done', isLoggedIn, function(req,res) {
@@ -134,50 +138,17 @@ module.exports = function(app, passport) {
             res.redirect('/home');
         });
     });
-    //done creating exhibit
-    /*app.post('/createexhibit/customize', isLoggedIn, function(req,res) {
+    app.post('/createexhibit', isLoggedIn, function(req,res) {
         var myDateString = Date();
         
         var n = req.body.name,
             tourid = req.body.ID,
-            visibility = req.body.visibility == "yes";
-            
-        console.log(req.user._id);
-            
-        Tour.updateOne( { _id : req.params["id"], uid : req.user._id }, { lastEdit : myDateString }, function (err, raw) {
-              if (err) console.log(err);
-              console.log('The raw response from Mongo was ', raw);
-            });
-            
-            // saved!
-            res.render('/editexhibit');
-        });
-    });*/
-    //done creating exhibit
-    app.post('/done/exhibit', isLoggedIn, function(req,res) {
-        var myDateString = Date();
+            visibility = req.body.visibility === "yes";
         
-        var n = req.body.name,
-            desc = req.body.desc,
-            address1 = req.body.address1,
-            address2 = req.body.address2,
-            city1 = req.body.city,
-            state1 = req.body.state,
-            zip1 = req.body.zip,
-            priv = req.body.privacy;
-            
         console.log(req.user._id);
-            
-        Tour.create({ uid : req.user._id, name : n, description : desc, addr1 : address1, addr2 : address2, city : city1, state : state1, zip : zip1, privacy : privacyOptions.indexOf(priv), rating : -1, lastEdit : myDateString }, function (err, small) {
-            if (err){
-                console.log(err);
-                return err;
-            }
-            // saved!
-            res.redirect('/home');
-        });
+        res.render('../client/views/editexhibit.ejs');
     });
-    app.get('/deletetour/:id', isLoggedIn, function(req, res) {
+    app.get('/delete/tour/:id', isLoggedIn, function(req, res) {
         Tour.deleteOne({ _id : req.params["id"], uid : req.user._id }, function (err) {
           if (err){
               console.log(err);
@@ -188,7 +159,7 @@ module.exports = function(app, passport) {
         });
         res.redirect('/home');
     });
-    app.post('/edittour/:id', isLoggedIn, function(req,res) {
+    app.post('/edit/tour/:id', isLoggedIn, function(req,res) {
         var myDateString = Date();
         
         var n = req.body.name,
