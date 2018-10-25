@@ -51,6 +51,28 @@
             <input type="number" class="form-control" id="exhibitID" aria-describedby="nameHelp" placeholder="Enter a numbered ID" name="ID">
             <small id="nameHelp" class="form-text text-muted">This is the ID that users will use to find this exhibit.</small>
         </div>
+        <label for="chooseType">Exhibit Type</label>
+        <div class="form-group" id="chooseType">
+             <div class="pretty p-default p-round p-smooth p-plain">
+                <input type="checkbox" value="yes" name="text" checked disabled/>
+                <div class="state p-success-o">
+                    <label> Text</label>
+                </div>
+            </div>
+            <div class="pretty p-default p-round p-smooth p-plain">
+                <input type="checkbox" value="yes" name="image"/>
+                <div class="state p-success-o">
+                    <label> Image</label>
+                </div>
+            </div>
+            <div class="pretty p-default p-round p-smooth p-plain">
+                <input type="checkbox" value="yes" name="audio"/>
+                <div class="state p-success-o">
+                    <label> Audio</label>
+                </div>
+            </div>
+            <small class="form-text text-muted">Features your exhibit will include.</small>
+        </div>
         <div class="form-group row">
             <label for="form-check" class="col col-md-4">Allow users to find and view this exhibit?</label>
             <div class="form-check" class="col col-md-auto">

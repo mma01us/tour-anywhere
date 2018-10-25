@@ -160,7 +160,10 @@ module.exports = function(app, passport) {
         
         var n = req.body.name,
             tourid = req.body.ID,
-            visibility = req.body.visibility === "yes";
+            visibility = req.body.visibility === "yes",
+            text = req.body.text === "yes",
+            image = req.body.text === "yes",
+            audio = req.body.text === "yes";
         
         console.log(req.user._id);
         res.render("../client/views/editexhibit.ejs");
