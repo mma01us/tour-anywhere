@@ -1,7 +1,7 @@
 // app/routes.js
 
-var Tour = require('../app/models/tour');
-var mongoose = require('mongoose');
+var Tour = require("../app/models/tour");
+var mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 var privacyOptions = ["Private", "Hidden", "Public"];
@@ -17,109 +17,111 @@ module.exports = function(app, passport) {
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
-    app.get('/', function(req, res) {
-        if(req.user != null)
-            res.redirect('/home');
-        res.render('../client/views/index.ejs'); // load the index.ejs file
+    /*app.all('*', function(req, res, next) {
+      console.log(req);
+      next();
+    });*/
+    app.get("/", function(req, res) {
+        if(req.user != null) {
+            res.redirect("/home");
+        }
+        res.render("../client/views/index.ejs"); // load the index.ejs file
     });
 
     // =====================================
     // LOGIN ===============================
     // =====================================
     // show the login form
-    app.get('/login', function(req, res) {
-        if(req.user != null)
-            res.redirect('/home');
+    app.get("/login", function(req, res) {
+        if(req.user != null) {
+            res.redirect("/home");
+        }
         // render the page and pass in any flash data if it exists
-        res.render('../client/views/login.ejs', { message: req.flash('loginMessage') }); 
+        res.render("../client/views/login.ejs", { message: req.flash("loginMessage") }); 
     });
 
     // process the login form
-    // app.post('/login', do all our passport stuff here);
+    // app.post("/login", do all our passport stuff here);
 
     // =====================================
     // SIGNUP ==============================
     // =====================================
     // show the signup form
-    app.get('/signup', function(req, res) {
+    app.get("/signup", function(req, res) {
         if(req.user != null)
-            res.redirect('/home');
+            res.redirect("/home");
         // render the page and pass in any flash data if it exists
-        res.render('../client/views/signup.ejs', { message: req.flash('signupMessage') });
+        res.render("../client/views/signup.ejs", { message: req.flash("signupMessage") });
     });
 
     // process the signup form
-    // app.post('/signup', do all our passport stuff here);
+    // app.post("/signup", do all our passport stuff here);
 
     // =====================================
     // PROFILE SECTION =====================
     // =====================================
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
-    app.get('/home', isLoggedIn, function(req, res) {
-        var tours = mongoose.model('Tour');
+    app.get("/home", isLoggedIn, function(req, res) {
+        var tours = mongoose.model("Tour");
         tours.find({ uid: req.user._id}, function (err, docs) {
             // if there are any errors, return the error before anything else
-            if (err || docs.length == 0){
+            if (err || docs.length === 0){
                 console.log("No tours found");
-                res.render('../client/views/getstarted.ejs', {
+                res.render("../client/views/getstarted.ejs", {
                     user : req.user
                 });
             }
             else {
-                res.render('../client/views/home.ejs', {
+                res.render("../client/views/home.ejs", {
                 user : req.user, // get the user out of session and pass to template
                 tours : docs
                 });
             }
         });
     });
-    app.get('/edit/:id', isLoggedIn, function(req, res){
+    app.get("/edit/:id", isLoggedIn, function(req, res){
         console.log("Edit for tour with id " + req.params["id"] + " requested.");
-        var tours = mongoose.model('Tour');
+        var tours = mongoose.model("Tour");
         tours.find({ _id : req.params["id"], uid : req.user._id }, function (err, docs) {
             // if there are any errors, return the error before anything else
-            if (err || docs.length == 0){
+            if (err || docs.length === 0){
                 console.log("Tour not found");
-                res.redirect('../client/views/home.ejs');
+                res.redirect("../client/views/home.ejs");
             }
             else {
-                res.render('../client/views/edit.ejs', {
+                res.render("../client/views/edit.ejs", {
                 user : req.user, // get the user out of session and pass to template
                 tour : docs[0]
                 });
             }
         });
     });
-    app.get('/toursettings/:id', isLoggedIn, function(req, res){
+    app.get("/tour/settings/:id", isLoggedIn, function(req, res){
         console.log("Tour settings for tour with id " + req.params["id"] + " requested.");
         var tours = mongoose.model("Tour");
         tours.find({ _id : req.params["id"], uid : req.user._id }, function (err, docs) {
             // if there are any errors, return the error before anything else
-            if (err || docs.length == 0){
+            if (err || docs.length === 0){
                 console.log("Tour not found");
-                res.redirect('../client/views/home.ejs');
+                res.redirect("../client/views/home.ejs");
             }
             else {
-                res.render('../client/views/toursettings.ejs', {
+                res.render("../client/views/toursettings.ejs", {
                 user : req.user, // get the user out of session and pass to template
                 tour : docs[0]
                 });
             }
         });
     });
-    //create new tour
-    app.get('/create', isLoggedIn, function(req,res) {
-        res.render('../client/views/create.ejs');
-    });
     //create a new exhibit
-    app.get('/create/exhibit', isLoggedIn, function(req,res) {
-        res.render('../client/views/createexhibit.ejs', {
+    app.get("/create/exhibit", isLoggedIn, function(req,res) {
+        res.render("../client/views/createexhibit.ejs", {
             tour : req.tour
         });
     });
     //created a tour
-    app.post('/done', isLoggedIn, function(req,res) {
+    app.post("/done", isLoggedIn, function(req,res) {
         var myDateString = Date();
         
         var n = req.body.name,
@@ -139,10 +141,10 @@ module.exports = function(app, passport) {
                 return err;
             }
             // saved!
-            res.redirect('/home');
+            res.redirect("/home");
         });
     });
-    app.post('/createexhibit', isLoggedIn, function(req,res) {
+    app.post("/create/exhibit", isLoggedIn, function(req,res) {
         var myDateString = Date();
         
         var n = req.body.name,
@@ -150,9 +152,14 @@ module.exports = function(app, passport) {
             visibility = req.body.visibility === "yes";
         
         console.log(req.user._id);
-        res.render('../client/views/editexhibit.ejs');
+        res.render("../client/views/editexhibit.ejs");
     });
-    app.get('/delete/tour/:id', isLoggedIn, function(req, res) {
+    
+    //create new tour
+    app.get("/create", isLoggedIn, function(req,res) {
+        res.render("../client/views/create.ejs");
+    });
+    app.get("/delete/tour/:id", isLoggedIn, function(req, res) {
         Tour.deleteOne({ _id : req.params["id"], uid : req.user._id }, function (err) {
           if (err){
               console.log(err);
@@ -161,9 +168,9 @@ module.exports = function(app, passport) {
           }
           // deleted at most one tour document
         });
-        res.redirect('/home');
+        res.redirect("/home");
     });
-    app.post('/edit/tour/:id', isLoggedIn, function(req,res) {
+    app.post("/edit/tour/:id", isLoggedIn, function(req,res) {
         var myDateString = Date();
         
         var n = req.body.name,
@@ -178,40 +185,40 @@ module.exports = function(app, passport) {
         
         Tour.updateOne( { _id : req.params["id"], uid : req.user._id }, { name : n, description : desc, addr1 : address1, addr2 : address2, city : city1, state : state1, zip : zip1, privacy : privacyOptions.indexOf(priv), lastEdit : myDateString }, function (err, raw) {
               if (err) console.log(err);
-              console.log('The raw response from Mongo was ', raw);
+              console.log("The raw response from Mongo was ", raw);
             });
         
-        res.redirect('/edit/' + req.params["id"]);
+        res.redirect("/edit/" + req.params["id"]);
     });
     
-    app.get('/css/:file', function(req, res){
-        res.sendFile('/home/ubuntu/workspace/client/css/' + req.params["file"]);
+    app.get("/css/:file", function(req, res){
+        res.sendFile("/home/ubuntu/workspace/client/css/" + req.params["file"]);
     });
     
-    app.get('/js/:file', function(req, res){
-        res.sendFile('/home/ubuntu/workspace/client/js/' + req.params["file"]);
+    app.get("/js/:file", function(req, res){
+        res.sendFile("/home/ubuntu/workspace/client/js/" + req.params["file"]);
     });
     
-    app.get('/res/:file', function(req, res){
-        res.sendFile('/home/ubuntu/workspace/client/res/' + req.params["file"]);
+    app.get("/res/:file", function(req, res){
+        res.sendFile("/home/ubuntu/workspace/client/res/" + req.params["file"]);
     });
     // =====================================
     // LOGOUT ==============================
     // =====================================
-    app.get('/logout', function(req, res) {
+    app.get("/logout", function(req, res) {
         req.logout();
-        res.redirect('/');
+        res.redirect("/");
     });
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/home', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+    app.post("/signup", passport.authenticate("local-signup", {
+        successRedirect : "/home", // redirect to the secure profile section
+        failureRedirect : "/signup", // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/home', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
+    app.post("/login", passport.authenticate("local-login", {
+        successRedirect : "/home", // redirect to the secure profile section
+        failureRedirect : "/login", // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
     // facebook routes
@@ -223,13 +230,13 @@ module.exports = function(app, passport) {
     // send to google to do the authentication
     // profile gets us their basic information including their name
     // email gets their emails
-    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get("/auth/google", passport.authenticate("google", { scope : ["profile", "email"] }));
 
     // the callback after google has authenticated the user
-    app.get('/auth/google/callback',
-            passport.authenticate('google', {
-                    successRedirect : '/home',
-                    failureRedirect : '/'
+    app.get("/auth/google/callback",
+            passport.authenticate("google", {
+                    successRedirect : "/home",
+                    failureRedirect : "/"
             }));
             
     // =============================================================================
@@ -237,12 +244,12 @@ module.exports = function(app, passport) {
     // =============================================================================
 
     // locally --------------------------------
-        app.get('/connect/local', function(req, res) {
-            res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+        app.get("/connect/local", function(req, res) {
+            res.render("connect-local.ejs", { message: req.flash("loginMessage") });
         });
-        app.post('/connect/local', passport.authenticate('local-signup', {
-            successRedirect : '/home', // redirect to the secure profile section
-            failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
+        app.post("/connect/local", passport.authenticate("local-signup", {
+            successRedirect : "/home", // redirect to the secure profile section
+            failureRedirect : "/connect/local", // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
 
@@ -251,13 +258,13 @@ module.exports = function(app, passport) {
     // google ---------------------------------
 
         // send to google to do the authentication
-        app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
+        app.get("/connect/google", passport.authorize("google", { scope : ["profile", "email"] }));
 
         // the callback after google has authorized the user
-        app.get('/connect/google/callback',
-            passport.authorize('google', {
-                successRedirect : '/home',
-                failureRedirect : '/'
+        app.get("/connect/google/callback",
+            passport.authorize("google", {
+                successRedirect : "/home",
+                failureRedirect : "/"
             }));
 };
 
@@ -268,6 +275,6 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    // if they aren't redirect them to the home page
-    res.redirect('/');
+    // if they aren"t redirect them to the home page
+    res.redirect("/");
 }
