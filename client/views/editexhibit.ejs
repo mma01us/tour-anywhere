@@ -51,13 +51,15 @@
         <% if(image){ %>
             <div class="form-group">
                 <label for="imageUpload">Image</label>
-                <input type="file" class="form-control-file" accept="image/*" id="imageUpload">
+                <br>
+                <input type="hidden" role="uploadcare-uploader" name="image" data-public-key="1346ee3e86abba71f8ed" data-preview-step="true" data-system-dialog="false" data-effects="crop,rotate,mirror" />
             </div>
         <% } %>
         <% if(audio){ %>
             <div class="form-group">
                 <label for="audioUpload">Audio</label>
-                <input type="file" class="form-control-file" accept="audio/*" id="audioUpload">
+                <br>
+                <input type="hidden" role="uploadcare-uploader" name="content" data-public-key="1346ee3e86abba71f8ed" data-preview-step="true" data-system-dialog="true" data-effects="crop,rotate,mirror" />
             </div>
         <% } %>
         <div style="text-align: center">
@@ -68,5 +70,14 @@
         </div>
     </form>
 </div>
+<script>
+  UPLOADCARE_LOCALE = "en";
+  UPLOADCARE_TABS = "file url facebook gdrive gphotos dropbox instagram evernote flickr skydrive";
+  UPLOADCARE_PUBLIC_KEY = "1346ee3e86abba71f8ed";
+</script>
+<script src="https://ucarecdn.com/libs/widget/3.6.1/uploadcare.full.min.js"></script><script src="https://ucarecdn.com/libs/widget-tab-effects/1.x/uploadcare.tab-effects.js"></script>
+<script>
+  uploadcare.registerTab('preview', uploadcareTabEffects)
+</script>
 </body>
 </html>
