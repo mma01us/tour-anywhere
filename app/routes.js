@@ -160,14 +160,36 @@ module.exports = function(app, passport) {
         });
     });
     app.post("/create/exhibit", isLoggedIn, function(req,res) {
+        console.log(req);
         var myDateString = Date();
         
         var n = req.body.name,
             tourid = req.body.ID,
             visibility = req.body.visibility === "yes",
-            text = req.body.text === "yes",
-            image = req.body.text === "yes",
-            audio = req.body.text === "yes";
+            text = true,
+            image = req.body.image === "yes",
+            audio = req.body.audio === "yes";
+        
+        console.log(req.user._id);
+        res.render("../client/views/editexhibit.ejs", {
+            n : n,
+            tourid : tourid,
+            visibility : visibility,
+            text : text,
+            image : image,
+            audio : audio
+        });
+    });
+    
+    app.post("/edit/exhibit", isLoggedIn, function(req,res) {
+        var myDateString = Date();
+        
+        var n = req.n,
+            tourid = req.tourid,
+            visibility = req.visibility,
+            hasText = req.text,
+            hasImage = req.image,
+            hasAudio = req.audio;
         
         console.log(req.user._id);
         res.render("../client/views/editexhibit.ejs");
