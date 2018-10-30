@@ -160,9 +160,6 @@ module.exports = function(app, passport) {
         });
     });
     app.post("/create/exhibit", isLoggedIn, function(req,res) {
-        console.log(req);
-        var myDateString = Date();
-        
         var n = req.body.name,
             tourid = req.body.ID,
             visibility = req.body.visibility === "yes",
