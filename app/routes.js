@@ -3,10 +3,6 @@
 var Tour = require("../app/models/tour");
 var mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-var grid = require('gridfs-stream');
-var fs = require('fs');
-var util = require('util');
-var formidable = require('formidable');
 
 var privacyOptions = ["Private", "Hidden", "Public"];
 
