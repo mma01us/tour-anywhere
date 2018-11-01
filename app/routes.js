@@ -183,6 +183,19 @@ module.exports = function(app, passport) {
             hasText = req.text,
             hasImage = req.image,
             hasAudio = req.audio;
+        var image,
+            audio,
+            text;
+        
+        if(hasText){
+            text = req.body.text;
+        }
+        if(hasImage){
+            image = req.body.image;
+        }
+        if(hasAudio){
+            audio = req.body.content;
+        }
         
         console.log(req.user._id);
         res.render("../client/views/editexhibit.ejs");

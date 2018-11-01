@@ -71,7 +71,7 @@
     <form action='/edit/tour/<%= tour._id %>' method='post'>
         <div class="form-group">
             <label for="tourName">Tour Name</label>
-            <input type="text" class="form-control" id="tourName" aria-describedby="nameHelp" placeholder="<%= tour.name %>" value="<%= tour.name %>" name="name">
+            <input type="text" class="form-control" id="tourName" aria-describedby="nameHelp" placeholder="<%= tour.name %>" value="<%= tour.name %>" name="name" required>
             <small id="nameHelp" class="form-text text-muted">This is the name of your tour that users will see.</small>
         </div>
         <div class="form-group">

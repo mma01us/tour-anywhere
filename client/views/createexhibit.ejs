@@ -46,12 +46,12 @@
     <form action='/create/exhibit' method='post'>
         <div class="form-group">
             <label for="exhibitName">Exhibit Name</label>
-            <input type="text" class="form-control" id="exhibitName" aria-describedby="nameHelp" placeholder="Enter a Catchy Name" name="name">
+            <input type="text" class="form-control" id="exhibitName" aria-describedby="nameHelp" placeholder="Enter a Catchy Name" name="name" required>
             <small id="nameHelp" class="form-text text-muted">This is the name of your exhibit that users will see.</small>
         </div>
         <div class="form-group">
             <label for="exhibitID">Exhibit ID</label>
-            <input type="number" class="form-control" id="exhibitID" aria-describedby="nameHelp" placeholder="Enter a numbered ID" name="ID">
+            <input type="number" class="form-control" id="exhibitID" aria-describedby="nameHelp" placeholder="Enter a numbered ID" name="ID" required>
             <small id="nameHelp" class="form-text text-muted">This is the ID that users will use to find this exhibit.</small>
         </div>
         <label for="chooseType">Exhibit Type</label>
