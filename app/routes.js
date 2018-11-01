@@ -157,45 +157,48 @@ module.exports = function(app, passport) {
     });
     app.post("/create/exhibit", isLoggedIn, function(req,res) {
         var n = req.body.name,
-            tourid = req.body.ID,
+            id = req.body.ID,
             visibility = req.body.visibility === "yes",
             text = true,
             image = req.body.image === "yes",
-            audio = req.body.audio === "yes";
+            audio = req.body.audio === "yes",
+            tourid = req.tour._id;
         
         console.log(req.user._id);
         res.render("../client/views/editexhibit.ejs", {
             n : n,
-            tourid : tourid,
+            id : id,
             visibility : visibility,
             text : text,
             image : image,
-            audio : audio
+            audio : audio,
+            tourid : tourid
         });
     });
     
     app.post("/edit/exhibit", isLoggedIn, function(req,res) {
         var myDateString = Date();
         
-        var n = req.n,
-            tourid = req.tourid,
-            visibility = req.visibility,
-            hasText = req.text,
+        var hasText = req.text,
             hasImage = req.image,
             hasAudio = req.audio;
-        var image,
-            audio,
-            text;
+            
+        var exhibit = { eid : req.id, name : req.n, viewable : req.visibility, tid : req.tourid };
         
-        if(hasText){
-            text = req.body.text;
+        if(hasText && hasImage && hasAudio){
+            exhibit.imageAudio = { imageLink : req.body.image, audioLink : req.body.content, transcription : req.body.text};
         }
-        if(hasImage){
-            image = req.body.image;
+        else if(hasText && hasImage){
+            exhibit.image = { imageLink : req.body.image, description : req.body.text };
         }
-        if(hasAudio){
-            audio = req.body.content;
+        else if(hasText && hasAudio){
+            exhibit.audio = { audioLink : req.body.content, transcription : req.body.text };
         }
+        else{
+            exhibit.text = { text : req.body.text };
+        }
+        
+        Tour.findOneAndUpdate( {_id: req.tourid}, {$push: {exhibits : exhibit}} );
         
         console.log(req.user._id);
         res.render("../client/views/editexhibit.ejs");

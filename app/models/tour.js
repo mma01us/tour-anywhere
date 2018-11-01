@@ -32,7 +32,6 @@ var tourSchema = mongoose.Schema({
         imageAudio          : {
             imageLink       : String,
             audioLink       : String,
-            description     : String,
             transcription   : String
         },
         lastEdit    : Date
