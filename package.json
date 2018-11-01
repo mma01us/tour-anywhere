@@ -26,5 +26,8 @@
     "passport-twitter": "^1.0.4",
     "request": "^2.88.0",
     "simple-oauth2": "^2.2.1"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.2"
   }
 }
