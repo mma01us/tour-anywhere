@@ -15,7 +15,7 @@ var tourSchema = mongoose.Schema({
     privacy     : Number,
     exhibits    : [{
         eid                 : Number,
-        tid                 : Number,
+        tid                 : String,
         name                : String,
         viewable            : Boolean,
         text                : {

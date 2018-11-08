@@ -98,7 +98,7 @@ module.exports = function(app, passport) {
             // if there are any errors, return the error before anything else
             if (err || docs.length === 0){
                 console.log("Tour not found");
-                res.redirect("../client/views/home.ejs");
+                res.redirect("/home");
             }
             else {
                 res.render("../client/views/edit.ejs", {
@@ -115,7 +115,7 @@ module.exports = function(app, passport) {
             // if there are any errors, return the error before anything else
             if (err || docs.length === 0){
                 console.log("Tour not found");
-                res.redirect("../client/views/home.ejs");
+                res.redirect("/home");
             }
             else {
                 res.render("../client/views/toursettings.ejs", {
@@ -126,9 +126,10 @@ module.exports = function(app, passport) {
         });
     });
     //create a new exhibit
-    app.get("/create/exhibit", isLoggedIn, function(req,res) {
+    app.get("/create/exhibit/:id", isLoggedIn, function(req,res) {
+        console.log(req);
         res.render("../client/views/createexhibit.ejs", {
-            tour : req.tour
+            id : req.params["id"]
         });
     });
     //created a tour
@@ -155,16 +156,15 @@ module.exports = function(app, passport) {
             res.redirect("/home");
         });
     });
-    app.post("/create/exhibit", isLoggedIn, function(req,res) {
+    app.post("/create/exhibit/", isLoggedIn, function(req,res) {
         var n = req.body.name,
             id = req.body.ID,
             visibility = req.body.visibility === "yes",
             text = true,
             image = req.body.image === "yes",
             audio = req.body.audio === "yes",
-            tourid = req.tour._id;
+            tourid = req.body.tourid;
         
-        console.log(req.user._id);
         res.render("../client/views/editexhibit.ejs", {
             n : n,
             id : id,
@@ -183,7 +183,9 @@ module.exports = function(app, passport) {
             hasImage = req.image,
             hasAudio = req.audio;
             
-        var exhibit = { eid : req.id, name : req.n, viewable : req.visibility, tid : req.tourid };
+        //var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, tid : req.body.tourid, lastEdit : myDateString };
+        
+        var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
         
         if(hasText && hasImage && hasAudio){
             exhibit.imageAudio = { imageLink : req.body.image, audioLink : req.body.content, transcription : req.body.text};
@@ -198,10 +200,19 @@ module.exports = function(app, passport) {
             exhibit.text = { text : req.body.text };
         }
         
-        Tour.findOneAndUpdate( {_id: req.tourid}, {$push: {exhibits : exhibit}} );
+        var query = { _id : req.body.tourid, uid : req.user._id };
+        
+        Tour.findByIdAndUpdate( req.body.tourid, { $push : {exhibits : exhibit} }, {safe: true, upsert: true},
+    function(err, doc) {
+        if(err){
+        console.log(err);
+        }else{
+        console.log(doc[0]);
+        }
+    } );
         
         console.log(req.user._id);
-        res.render("../client/views/editexhibit.ejs");
+        res.redirect("/edit/" + req.body.tourid);
     });
     
     //create new tour
