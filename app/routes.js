@@ -127,7 +127,6 @@ module.exports = function(app, passport) {
     });
     //create a new exhibit
     app.get("/create/exhibit/:id", isLoggedIn, function(req,res) {
-        console.log(req);
         res.render("../client/views/createexhibit.ejs", {
             id : req.params["id"]
         });
@@ -183,33 +182,35 @@ module.exports = function(app, passport) {
             hasImage = req.image,
             hasAudio = req.audio;
             
-        //var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, tid : req.body.tourid, lastEdit : myDateString };
+        //var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
         
         var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
         
         if(hasText && hasImage && hasAudio){
             exhibit.imageAudio = { imageLink : req.body.image, audioLink : req.body.content, transcription : req.body.text};
+            exhibit.type = "Image and Audio Exhibit";
         }
         else if(hasText && hasImage){
             exhibit.image = { imageLink : req.body.image, description : req.body.text };
+            exhibit.type = "Image Exhibit";
         }
         else if(hasText && hasAudio){
             exhibit.audio = { audioLink : req.body.content, transcription : req.body.text };
+            exhibit.type = "Audio Exhibit";
         }
         else{
             exhibit.text = { text : req.body.text };
+            exhibit.type = "Text Exhibit";
         }
-        
-        var query = { _id : req.body.tourid, uid : req.user._id };
         
         Tour.findByIdAndUpdate( req.body.tourid, { $push : {exhibits : exhibit} }, {safe: true, upsert: true},
-    function(err, doc) {
-        if(err){
-        console.log(err);
-        }else{
-        console.log(doc[0]);
-        }
-    } );
+            function(err, doc) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log(doc[0]);
+                }
+            } );
         
         console.log(req.user._id);
         res.redirect("/edit/" + req.body.tourid);
@@ -231,6 +232,7 @@ module.exports = function(app, passport) {
         res.redirect("/home");
     });
     app.post("/edit/tour/:id", isLoggedIn, function(req,res) {
+        
         var myDateString = Date();
         
         var n = req.body.name,
