@@ -47,7 +47,7 @@
         <a href="/create/exhibit/<%= tour._id %>" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> New Exhibit</a>
     </div>
     
-    <% if(tour.exhibits.length === 0) {%>
+    <% if(tour.exhibits.length === 0) { %>
         <div class="jumbotron jumbotron-fluid" style="text-align: center">
           <div class="container">
             <h1 class="display-4">No Exhibits</h1>
@@ -59,28 +59,27 @@
     <div class="row">
         <div class="list-group">
             <% tour.exhibits.forEach(function showitem(exhibit) {%>
-               <a href="edit/<%= tour._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
+               <a href="exhibit/<%= tour._id %>" class="list-group-item list-group-item-action flex-column align-items-end">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= exhibit.name %></h5>
                         <small>Exhibit ID: <%= exhibit.eid %></small>
                     </div>
-                    <p class="mb-1"><%= exhibit.tid %></p> <!--type-->
+                    <p class="mb-1"><!--Info--></p>
                     <small>Last edited <%= tour.lastEdit %></small>
                 </a>
             <% }); %>
-            <!-- sample template of tour list item
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Tour Name</h5>
-                    <small>Number of visits</small>
-                </div>
-                <p class="mb-1">Tour description</p>
-                <small>L:ast edited.</small>
-            </a>
-            -->
+            <% if(tour.exhibits.length != 0) { %>
+                <a href="" class="list-group-item list-group-item-action flex-column align-items-end" style="visibility: hidden">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Template List Item</h5>
+                        <small>Template ID: #</small>
+                    </div>
+                    <p class="mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia eget eros sed gravida. Cras lobortis vel enim dignissim bibendum. Ut sollicitudin ultricies ipsum aliquam tristique. In augue nibh, pulvinar et molestie quis, varius in eros. Phasellus vehicula tempus turpis, a venenatis sem. Morbi luctus scelerisque ex, non viverra magna.</p>
+                    <small>Last edited date and time.</small>
+                </a>
+            <% } %>
         </div>
     </div>
-
 </div>
 </body>
 </html>
