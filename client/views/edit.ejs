@@ -6,6 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/styles.css">
@@ -59,14 +60,46 @@
     <div class="row">
         <div class="list-group">
             <% tour.exhibits.forEach(function showitem(exhibit) {%>
-               <a href="exhibit/<%= tour._id %>" class="list-group-item list-group-item-action flex-column align-items-end">
+               <div id="<%= exhibit.eid %>" class="list-group-item list-group-item-action flex-column align-items-end selectable-list-item" tabindex="0" 
+                ondblclick="editExhibit('<%= tour._id %>', '<%= exhibit.eid %>');">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= exhibit.name %></h5>
                         <small>Exhibit ID: <%= exhibit.eid %></small>
                     </div>
-                    <p class="mb-1"><%= exhibit.type %></p>
+                    <div class="d-flex bd-highlight">
+                        <% if(exhibit.audio != null || exhibit.imageAudio != null) {%>
+                            <div class="icon bd-highlight">
+                                <small><i class="far fa-file-audio"></i></small>
+                            </div>
+                        <% } %>
+                        <% if(exhibit.image != null || exhibit.imageAudio != null) {%>
+                            <div class="icon bd-highlight">
+                                <small><i class="far fa-file-image"></i></small>
+                            </div>
+                        <% } %>
+                        <div class="icon bd-highlight">
+                            <small><i class="far fa-file-alt"></i></small>
+                        </div>
+                        <div class="ml-auto bd-highlight" onclick="window.location='/delete/exhibit/<%= tour._id %>/<%= exhibit.eid %>'">
+                            <small><i class="fas fa-trash-alt"></i></small>
+                        </div>
+                    </div>
+                    <p>
+                        <% if(exhibit.text != null) {%>
+                            Text description
+                        <% } %>
+                        <% if(exhibit.image != null) {%>
+                            Image with text description
+                        <% } %>
+                        <% if(exhibit.audio != null) {%>
+                            Audio with text transcript or description
+                        <% } %>
+                        <% if(exhibit.imageAudio != null) {%>
+                            Image, Audio, and text transcript or description
+                        <% } %>
+                    </p>
                     <small>Last edited <%= tour.lastEdit %></small>
-                </a>
+                </div>
             <% }); %>
             <% if(tour.exhibits.length != 0) { %>
                 <a href="" class="list-group-item list-group-item-action flex-column align-items-end" style="visibility: hidden">

@@ -11,6 +11,18 @@
     transform: translate(-50%, -50%);
 }
 
+.icon {
+    margin-right: .5rem;
+}
+
+.selectable-list-item {
+    cursor: pointer;
+}
+
+.selectable-list-item:active, .selectable-list-item:focus {
+    background-color: #E9ECEF;
+}
+
 #hide input[type=file] {
 display:none;
 margin:10px;

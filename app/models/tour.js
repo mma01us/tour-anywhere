@@ -1,6 +1,37 @@
 //app/models/tours.js
 var mongoose = require("mongoose");
 
+var textSchema = mongoose.Schema({
+    description : String
+});
+
+var audioSchema = mongoose.Schema({
+    audioLink       : String,
+    transcription   : String
+});
+
+var imageSchema = mongoose.Schema({
+    imageLink       : String,
+    description     : String
+});
+
+var imageAudioSchema = mongoose.Schema({
+        imageLink       : String,
+        audioLink       : String,
+        transcription   : String
+    });
+//
+var exhibitSchema = mongoose.Schema({
+    eid                 : Number,
+    name                : String,
+    viewable            : Boolean,
+    text                : textSchema,
+    audio               : audioSchema,
+    image               : imageSchema,
+    imageAudio          : imageAudioSchema,
+    lastEdit    : Date
+});
+
 //Generate schema
 var tourSchema = mongoose.Schema({
     uid         : String,
@@ -13,29 +44,7 @@ var tourSchema = mongoose.Schema({
     zip         : Number,
     rating      : Number,
     privacy     : Number,
-    exhibits    : [{
-        eid                 : Number,
-        type                : String,
-        name                : String,
-        viewable            : Boolean,
-        text                : {
-            text            : String  
-        },
-        audio               : {
-            audioLink       : String,
-            transcription   : String
-        },
-        image               : {
-            imageLink       : String,
-            description     : String
-        },
-        imageAudio          : {
-            imageLink       : String,
-            audioLink       : String,
-            transcription   : String
-        },
-        lastEdit    : Date
-    }],
+    exhibits    : [exhibitSchema],
     lastEdit    : Date
 });
 

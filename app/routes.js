@@ -178,29 +178,33 @@ module.exports = function(app, passport) {
     app.post("/edit/exhibit", isLoggedIn, function(req,res) {
         var myDateString = Date();
         
-        var hasText = req.text,
-            hasImage = req.image,
-            hasAudio = req.audio;
+        var hasText = req.body.text != null,
+            hasImage = req.body.image != null,
+            hasAudio = req.body.audio != null;
             
         //var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
         
         var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
         
-        if(hasText && hasImage && hasAudio){
+        if(req.body.text && hasImage && hasAudio){
+            console.log("New audio and image exhibit");
             exhibit.imageAudio = { imageLink : req.body.image, audioLink : req.body.content, transcription : req.body.text};
-            exhibit.type = "Image and Audio Exhibit";
+            //exhibit.type = "Image and Audio Exhibit";
         }
         else if(hasText && hasImage){
+            console.log("New image exhibit");
             exhibit.image = { imageLink : req.body.image, description : req.body.text };
-            exhibit.type = "Image Exhibit";
+            //exhibit.type = "Image Exhibit";
         }
         else if(hasText && hasAudio){
+            console.log("New audio exhibit");
             exhibit.audio = { audioLink : req.body.content, transcription : req.body.text };
-            exhibit.type = "Audio Exhibit";
+            //exhibit.type = "Audio Exhibit";
         }
         else{
+            console.log("New text exhibit");
             exhibit.text = { text : req.body.text };
-            exhibit.type = "Text Exhibit";
+            //exhibit.type = "Text Exhibit";
         }
         
         Tour.findByIdAndUpdate( req.body.tourid, { $push : {exhibits : exhibit} }, {safe: true, upsert: true},
@@ -214,6 +218,10 @@ module.exports = function(app, passport) {
         
         console.log(req.user._id);
         res.redirect("/edit/" + req.body.tourid);
+    });
+    
+    app.get("editexhibit", isLoggedIn, function(req,res) {
+        
     });
     
     //create new tour
