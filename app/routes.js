@@ -182,6 +182,7 @@ module.exports = function(app, passport) {
             }
             else {
                 var exhibit = docs[0].exhibits[req.params["eid"]];
+                
                 res.render("../client/views/editexhibit.ejs", {
                     tid         : req.params["tid"],
                     eid         : req.params["eid"],

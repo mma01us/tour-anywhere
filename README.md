@@ -13,4 +13,4 @@
 
 ## Project Proposal
 
-> The Project Proposal paper can be found at https://docs.google.com/document/d/1dIIUT3SZDJj8tq9rataSNt5NmO-lg5G2XwD13eAStcQ/edit?usp=sharing and can be accessed by any fcpsschools user.
+> The Project Proposal paper can be found [here](https://docs.google.com/document/d/1dIIUT3SZDJj8tq9rataSNt5NmO-lg5G2XwD13eAStcQ/edit?usp=sharing) and can be accessed by any fcpsschools user.
