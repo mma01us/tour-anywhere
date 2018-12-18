@@ -60,8 +60,8 @@
     <div class="row">
         <div class="list-group">
             <% tour.exhibits.forEach(function showitem(exhibit) {%>
-               <div id="<%= exhibit.eid %>" class="list-group-item list-group-item-action flex-column align-items-end selectable-list-item" tabindex="0" 
-                ondblclick="editExhibit('<%= tour._id %>', '<%= exhibit.eid %>');">
+                <div2 id="<%= exhibit.eid %>" class="list-group-item list-group-item-action flex-column align-items-end selectable-list-item" tabindex="-1" 
+                ondblclick="editExhibit('<%= tour._id %>', '<%= exhibit.eid %>');" onclick="">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= exhibit.name %></h5>
                         <small>Exhibit ID: <%= exhibit.eid %></small>
@@ -99,7 +99,7 @@
                         <% } %>
                     </p>
                     <small>Last edited <%= tour.lastEdit %></small>
-                </div>
+                </div2>
             <% }); %>
             <% if(tour.exhibits.length != 0) { %>
                 <a href="" class="list-group-item list-group-item-action flex-column align-items-end" style="visibility: hidden">
@@ -115,4 +115,21 @@
     </div>
 </div>
 </body>
+<script type="text/javascript">
+    var activeDivAttr;
+
+    $('div2').mousedown(function(e) {
+        e.stopImmediatePropagation(); //stops event bubbling
+        
+        console.log($(this).attr('id'));
+        
+        if (activeDivAttr == $(this).attr('id')) {
+            editExhibit('<%= tour._id %>', $(this).attr('id'));
+        } else {
+            this.focus();  //stops default browser action (focus)
+        }
+        
+        activeDivAttr= $(this).attr('id');
+    });
+</script>
 </html>

@@ -9,5 +9,7 @@ function editExhibit(tourid, exhibitid){
 function editIfFocused(tourid, exhibitid){
     if(document.getElementById(exhibitid) === document.activeElement){
         window.location = "edit/exhibit" + tourid + "/" + exhibitid;
+    } else {
+        document.getElementById(exhibitid).focus();
     }
 }

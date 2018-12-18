@@ -47,7 +47,7 @@
     <div class="row">
         <div class="list-group">
             <% tours.forEach(function showitem(tour) {%>
-               <a href="edit/<%= tour._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
+               <div2 id='<%= tour._id %>' class="list-group-item list-group-item-action flex-column align-items-start selectable-list-item" ondblclick="window.location='edit/<%= tour._id %>'" tabindex = -1>
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= tour.name %></h5>
                         <% if(tour.privacy === 0) {%>
@@ -63,7 +63,7 @@
                     <small><%= tour.exhibits.length %> Exhibits.</small>
                     <p class="mb-1"><%= tour.description %></p>
                     <small>Last edited <%= tour.lastEdit %></small>
-                </a>
+                </div2>
             <% }); %>
             <a href="" class="list-group-item list-group-item-action flex-column align-items-end" style="visibility: hidden">
                     <div class="d-flex w-100 justify-content-between">
@@ -78,4 +78,21 @@
 
 </div>
 </body>
+<script type="text/javascript">
+    var activeDivAttr;
+
+    $('div2').mousedown(function(e) {
+        e.stopImmediatePropagation(); //stops event bubbling
+        
+        console.log($(this).attr('id'));
+        
+        if (activeDivAttr == $(this).attr('id')) {
+            window.location = 'edit/' + $(this).attr('id');
+        } else {
+            this.focus();  //stops default browser action (focus)
+        }
+        
+        activeDivAttr= $(this).attr('id');
+    });
+</script>
 </html>

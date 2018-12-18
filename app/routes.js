@@ -93,8 +93,7 @@ module.exports = function(app, passport) {
     });
     app.get("/edit/:id", isLoggedIn, function(req, res){
         console.log("Edit for tour with id " + req.params["id"] + " requested.");
-        var tours = mongoose.model("Tour");
-        tours.find({ _id : req.params["id"], uid : req.user._id }, function (err, docs) {
+        Tour.find({ _id : req.params["id"], uid : req.user._id }, function (err, docs) {
             // if there are any errors, return the error before anything else
             if (err || docs.length === 0){
                 console.log("Tour not found");
@@ -110,8 +109,7 @@ module.exports = function(app, passport) {
     });
     app.get("/tour/settings/:id", isLoggedIn, function(req, res){
         console.log("Tour settings for tour with id " + req.params["id"] + " requested.");
-        var tours = mongoose.model("Tour");
-        tours.find({ _id : req.params["id"], uid : req.user._id }, function (err, docs) {
+        Tour.find({ _id : req.params["id"], uid : req.user._id }, function (err, docs) {
             // if there are any errors, return the error before anything else
             if (err || docs.length === 0){
                 console.log("Tour not found");
@@ -175,6 +173,26 @@ module.exports = function(app, passport) {
         });
     });
     
+    app.get("/edit/exhibit/:tid/:eid", isLoggedIn, function(req,res) {
+        Tour.find({ _id : req.params["tid"], uid : req.user._id }, function (err, docs) {
+            // if there are any errors, return the error before anything else
+            if (err || docs.length === 0){
+                console.log("Tour not found");
+                res.redirect("/home");
+            }
+            else {
+                var exhibit = docs[0].exhibits[req.params["eid"]];
+                res.render("../client/views/editexhibit.ejs", {
+                    tid         : req.params["tid"],
+                    eid         : req.params["eid"],
+                    n           : exhibit.name,
+                    visibility  : exhibit.viewable,
+                    tour    : docs[0]
+                });
+            }
+        });
+    });
+    
     app.post("/edit/exhibit", isLoggedIn, function(req,res) {
         var myDateString = Date();
         
@@ -218,10 +236,6 @@ module.exports = function(app, passport) {
         
         console.log(req.user._id);
         res.redirect("/edit/" + req.body.tourid);
-    });
-    
-    app.get("editexhibit", isLoggedIn, function(req,res) {
-        
     });
     
     //create new tour
