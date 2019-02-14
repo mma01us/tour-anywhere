@@ -3,6 +3,8 @@
 var Tour = require("../app/models/tour");
 var mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+var ObjectID = require('mongodb').ObjectID;
+var tours = mongoose.model("Tour");
 
 var privacyOptions = ["Private", "Hidden", "Public"];
 
@@ -162,7 +164,7 @@ module.exports = function(app, passport) {
             audio = req.body.audio === "yes",
             tourid = req.body.tourid;
         
-        res.render("../client/views/editexhibit.ejs", {
+        res.render("../client/views/createexhibit2.ejs", {
             n : n,
             id : id,
             visibility : visibility,
@@ -178,23 +180,61 @@ module.exports = function(app, passport) {
             // if there are any errors, return the error before anything else
             if (err || docs.length === 0){
                 console.log("Tour not found");
+                console.log(err);
                 res.redirect("/home");
             }
             else {
-                var exhibit = docs[0].exhibits[req.params["eid"]];
+                var exhibit = docs[0].exhibits[0];
+                
+                for (var i = 0; i < docs[0].exhibits.length; i++) {
+                    if(docs[0].exhibits[i].eid == req.params["eid"]){
+                        exhibit = docs[0].exhibits[i];
+                        break;
+                    }
+                }
+                
+                var text = true;
+                
+                if(exhibit.audio != null)
+                    var audio = true;
+                if(exhibit.image != null)
+                    var image = true;
+                    
+            var t;
+            
+            if(req.body.text && image && audio){
+                t = exhibit.imageAudio.transcription;
+            //exhibit.type = "Image and Audio Exhibit";
+            }
+            else if(text && image){
+                t = exhibit.image.description;
+                //exhibit.type = "Image Exhibit";
+            }
+            else if(text && audio){
+                t = exhibit.audio.transcription;
+                //exhibit.type = "Audio Exhibit";
+            }
+            else{
+                t = exhibit.text.description;
+                //exhibit.type = "Text Exhibit";
+            }
                 
                 res.render("../client/views/editexhibit.ejs", {
-                    tid         : req.params["tid"],
-                    eid         : req.params["eid"],
+                    tourid      : req.params["tid"],
+                    id          : req.params["eid"],
                     n           : exhibit.name,
                     visibility  : exhibit.viewable,
-                    tour    : docs[0]
+                    t           : t,
+                    text        : text,
+                    image       : image,
+                    audio       : audio,
+                    tour        : docs[0]
                 });
             }
         });
     });
     
-    app.post("/edit/exhibit", isLoggedIn, function(req,res) {
+    app.post("/edit/completeexhibit", isLoggedIn, function(req,res) {
         var myDateString = Date();
         
         var hasText = req.body.text != null,
@@ -206,23 +246,23 @@ module.exports = function(app, passport) {
         var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
         
         if(req.body.text && hasImage && hasAudio){
-            console.log("New audio and image exhibit");
+            console.log("Edit audio and image exhibit");
             exhibit.imageAudio = { imageLink : req.body.image, audioLink : req.body.content, transcription : req.body.text};
             //exhibit.type = "Image and Audio Exhibit";
         }
         else if(hasText && hasImage){
-            console.log("New image exhibit");
+            console.log("Edit image exhibit");
             exhibit.image = { imageLink : req.body.image, description : req.body.text };
             //exhibit.type = "Image Exhibit";
         }
         else if(hasText && hasAudio){
-            console.log("New audio exhibit");
+            console.log("Edit audio exhibit");
             exhibit.audio = { audioLink : req.body.content, transcription : req.body.text };
             //exhibit.type = "Audio Exhibit";
         }
         else{
-            console.log("New text exhibit");
-            exhibit.text = { text : req.body.text };
+            console.log("Edit text exhibit");
+            exhibit.text = { description : req.body.text };
             //exhibit.type = "Text Exhibit";
         }
         
@@ -236,6 +276,201 @@ module.exports = function(app, passport) {
             } );
         
         console.log(req.user._id);
+        res.redirect("/edit/" + req.body.tourid);
+    });
+    
+    app.post("/edit/exhibit", isLoggedIn, function(req,res) {
+        var myDateString = Date();
+        
+        var hasText = req.body.text != null,
+            hasImage = req.body.image != null,
+            hasAudio = req.body.audio != null;
+        
+        var visible = req.body.visibility == "yes"; //weird and reversed for some reason
+        
+        //var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
+        
+        if(req.body.text && hasImage && hasAudio){
+            console.log("Edit audio and image exhibit");
+            Tour.find({ _id : ObjectID(req.body.tourid), uid : ObjectID(req.user._id) }, function (err, docs) {
+            // if there are any errors, return the error before anything else
+                if (err || docs.length === 0){
+                    console.log(err);
+                }
+                else {
+                    var ind = 0;
+                    
+                    for (var i = 0; i < docs[0].exhibits.length; i++) {
+                        if(docs[0].exhibits[i].eid == req.body.id){
+                            ind = i;
+                            break;
+                        }
+                    }
+                        
+                    var p1 = 'exhibits.' + ind + '.name';
+                    var p2 = 'exhibits.' + ind + '.viewable';
+                    var p3 = 'exhibits.' + ind + '.lastEdit';
+                    var p4 = 'exhibits.' + ind + '.imageAudio';
+                    
+                    tours.update(
+                    {
+                        "_id" : ObjectID(req.body.tourid)
+                    }, 
+                    { $set : 
+                        {
+                            [p1] : req.body.n,
+                            [p2] : visible,
+                            [p3] : myDateString,
+                            [p4] : { 'imageLink' : req.body.image, 'audioLink' : req.body.content, 'transcription' : req.body.text},
+                            lastEdit : myDateString
+                        }
+                    },
+                    function(err, result){
+                        if (err) {
+                            console.log('Error updating object: ' + err);
+                        } else {
+                            console.log('' + result + ' document(s) updated');
+                        }
+                    });
+                }
+            });
+        }
+        else if(hasText && hasImage){
+            console.log("Edit image exhibit");
+            Tour.find({ _id : ObjectID(req.body.tourid), uid : ObjectID(req.user._id) }, function (err, docs) {
+            // if there are any errors, return the error before anything else
+                if (err || docs.length === 0){
+                    console.log(err);
+                }
+                else {
+                    var ind = 0;
+                    
+                    for (var i = 0; i < docs[0].exhibits.length; i++) {
+                        if(docs[0].exhibits[i].eid == req.body.id){
+                            ind = i;
+                            break;
+                        }
+                    }
+                        
+                    var p1 = 'exhibits.' + ind + '.name';
+                    var p2 = 'exhibits.' + ind + '.viewable';
+                    var p3 = 'exhibits.' + ind + '.lastEdit';
+                    var p4 = 'exhibits.' + ind + '.imageAudio';
+                    
+                    tours.update(
+                    {
+                        "_id" : ObjectID(req.body.tourid)
+                    }, 
+                    { $set : 
+                        {
+                            [p1] : req.body.n,
+                            [p2] : visible,
+                            [p3] : myDateString,
+                            [p4] : { 'imageLink' : req.body.image, 'description' : req.body.text },
+                            lastEdit : myDateString
+                        }
+                    },
+                    function(err, result){
+                        if (err) {
+                            console.log('Error updating object: ' + err);
+                        } else {
+                            console.log('' + result + ' document(s) updated');
+                        }
+                    });
+                }
+            });
+            
+        }
+        else if(hasText && hasAudio){
+            console.log("Edit audio exhibit");
+            Tour.find({ _id : ObjectID(req.body.tourid), uid : ObjectID(req.user._id) }, function (err, docs) {
+            // if there are any errors, return the error before anything else
+                if (err || docs.length === 0){
+                    console.log(err);
+                }
+                else {
+                    var ind = 0;
+                    
+                    for (var i = 0; i < docs[0].exhibits.length; i++) {
+                        if(docs[0].exhibits[i].eid == req.body.id){
+                            ind = i;
+                            break;
+                        }
+                    }
+                        
+                    var p1 = 'exhibits.' + ind + '.name';
+                    var p2 = 'exhibits.' + ind + '.viewable';
+                    var p3 = 'exhibits.' + ind + '.lastEdit';
+                    var p4 = 'exhibits.' + ind + '.audio';
+                    
+                    tours.update(
+                    {
+                        "_id" : ObjectID(req.body.tourid)
+                    }, 
+                    { $set : 
+                        {
+                            [p1] : req.body.n,
+                            [p2] : visible,
+                            [p3] : myDateString,
+                            [p4] : { 'audioLink' : req.body.content, 'transcription' : req.body.text },
+                            lastEdit : myDateString
+                        }
+                    },
+                    function(err, result){
+                        if (err) {
+                            console.log('Error updating object: ' + err);
+                        } else {
+                            console.log('' + result + ' document(s) updated');
+                        }
+                    });
+                }
+            });
+        }
+        else{
+            console.log("Edit text exhibit");
+            Tour.find({ _id : ObjectID(req.body.tourid), uid : ObjectID(req.user._id) }, function (err, docs) {
+            // if there are any errors, return the error before anything else
+                if (err || docs.length === 0){
+                    console.log(err);
+                }
+                else {
+                    var ind = 0;
+                    
+                    for (var i = 0; i < docs[0].exhibits.length; i++) {
+                        if(docs[0].exhibits[i].eid == req.body.id){
+                            ind = i;
+                            break;
+                        }
+                    }
+                        
+                    var p1 = 'exhibits.' + ind + '.name';
+                    var p2 = 'exhibits.' + ind + '.viewable';
+                    var p3 = 'exhibits.' + ind + '.lastEdit';
+                    var p4 = 'exhibits.' + ind + '.text';
+                    
+                    tours.update(
+                    {
+                        "_id" : ObjectID(req.body.tourid)
+                    }, 
+                    { $set : 
+                        {
+                            [p1] : req.body.n,
+                            [p2] : visible,
+                            [p3] : myDateString,
+                            [p4] : { 'description' : req.body.text },
+                            lastEdit : myDateString
+                        }
+                    },
+                    function(err, result){
+                        if (err) {
+                            console.log('Error updating object: ' + err);
+                        } else {
+                            console.log('' + result + ' document(s) updated');
+                        }
+                    });
+                }
+            });
+        }
         res.redirect("/edit/" + req.body.tourid);
     });
     
@@ -253,6 +488,58 @@ module.exports = function(app, passport) {
           // deleted at most one tour document
         });
         res.redirect("/home");
+    });
+    app.get("/delete/exhibit/:tid/:eid", isLoggedIn, function(req, res){
+        console.log("Deleted exhibit with id " + req.params["eid"]);
+        Tour.find({ _id : ObjectID(req.body.tourid), uid : ObjectID(req.user._id) }, function (err, docs) {
+            // if there are any errors, return the error before anything else
+                if (err || docs.length === 0){
+                    console.log(err);
+                }
+                else {
+                    var ind = 0;
+                    
+                    for (var i = 0; i < docs[0].exhibits.length; i++) {
+                        if(docs[0].exhibits[i].eid == req.params["eid"]){
+                            ind = i;
+                            break;
+                        }
+                    }
+                        
+                    var p1 = 'exhibits.' + ind;
+                    
+                    tours.update(
+                    {
+                        "_id" : ObjectID(req.params["tid"])
+                    }, 
+                    { 
+                        $set: { [p1] : null }
+                    },
+                    function(err, result){
+                        if (err) {
+                            console.log('Error setting to null object: ' + err);
+                        } else {
+                            console.log('' + result + ' document(s) set to null');
+                        }
+                    });
+                    
+                    tours.update(
+                    {
+                        "_id" : ObjectID(req.params["tid"])
+                    }, 
+                    {
+                        $pull : { "exhibits" : null }
+                    },
+                    function(err, result){
+                        if (err) {
+                            console.log('Error deleting object: ' + err);
+                        } else {
+                            console.log('' + result + ' document(s) deleted');
+                        }
+                    });
+                }
+            });
+            res.redirect("/edit/" + req.params["tid"]);
     });
     app.post("/edit/tour/:id", isLoggedIn, function(req,res) {
         

@@ -16,10 +16,10 @@ var imageSchema = mongoose.Schema({
 });
 
 var imageAudioSchema = mongoose.Schema({
-        imageLink       : String,
-        audioLink       : String,
-        transcription   : String
-    });
+    imageLink       : String,
+    audioLink       : String,
+    transcription   : String
+});
 //
 var exhibitSchema = mongoose.Schema({
     eid                 : Number,

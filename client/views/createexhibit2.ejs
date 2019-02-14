@@ -1,8 +1,8 @@
-<!-- views/editexhibit.ejs -->
+<!-- views/createexhibit2.ejs -->
 <!doctype html>
 <html>
 <head>
-    <title>Edit Exhibit</title>
+    <title>Create Exhibit</title>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -39,17 +39,15 @@
     <div class="text-left">
         <a href="/home" class="btn btn-primary"><i class="fas fa-home"></i> Home</a>
     </div>
+    <div class="page-header text-center">
+        <h1 class="display-4"><%= n %></h1>
+    </div>
 
-    <form action='/edit/exhibit' method='post'>
-        <div class="page-header">
-            <label for="exhibitName">Title</label>
-            <input type="text" class="form-control" id="exhibitName" aria-describedby="nameHelp" placeholder="Enter a description, caption, or transcription" name="n" value="<%= n %>">
-            <small id="nameHelp" class="form-text text-muted">The name of your exhibit.</small>
-        </div>
+    <form action='/edit/completeexhibit' method='post'>
         <% if(text){ %>
             <div class="form-group">
                 <label for="exhibitText">Text</label>
-                <input type="text" class="form-control" id="exhibitText" aria-describedby="textHelp" placeholder="Enter a description, caption, or transcription" name="text" value="<%= t %>">
+                <input type="text" class="form-control" id="exhibitText" aria-describedby="textHelp" placeholder="Enter a description, caption, or transcription" name="text">
                 <small id="textHelp" class="form-text text-muted">This text will appear as a description, image caption, or transcription.</small>
             </div>
         <% } %>
@@ -67,42 +65,14 @@
                 <input type="hidden" role="uploadcare-uploader" name="content" data-public-key="1346ee3e86abba71f8ed" data-preview-step="true" data-system-dialog="true" data-effects="crop,rotate,mirror" />
             </div>
         <% } %>
-        <div class="form-group row">
-            <label for="form-check" class="col col-md-4">Allow users to find and view this exhibit?</label>
-            <div class="form-check" class="col col-md-auto">
-                <div class="pretty p-icon p-toggle p-plain">
-                    <% if(!visibility){%>
-                    <input type="checkbox" value="yes" name="visibility">
-                        <div class="state p-success-o p-on">
-                            <i class="far fa-eye"></i>
-                            <label>Showing</label>
-                        </div>
-                        <div class="state p-off">
-                            <i class="far fa-eye-slash"></i>
-                            <label>Hidden</label>
-                        </div>
-                    </input>
-                    <% } if(visibility) { %>
-                    <input type="checkbox" value="yes" name="visibility">
-                        <div class="state p-off">
-                            <i class="far fa-eye"></i>
-                            <label>Showing</label>
-                        </div>
-                        <div class="state p-success-o p-on">
-                            <i class="far fa-eye-slash"></i>
-                            <label>Hidden</label>
-                        </div>
-                    </input>
-                    <% } %>
-                </div>
-            </div>
-        </div>
         <input type="text" value="<%= tourid %>" name="tourid" hidden></input>
+        <input type="text" value="<%= visibility %>" name="visibility" hidden></input>
+        <input type="text" value="<%= n %>" name="n" hidden></input>
         <input type="text" value="<%= id %>" name="id" hidden></input>
         <div style="text-align: center">
             <span>
-                <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
-                <button type="submit" class="btn btn-success">Save</button>
+                <a href="javascript:history.back()" class="btn btn-danger">Back</a>
+                <button type="submit" class="btn btn-success">Create</button>
             </span>
         </div>
     </form>
