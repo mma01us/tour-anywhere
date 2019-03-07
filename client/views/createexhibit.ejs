@@ -78,9 +78,9 @@
             <span id="nameError" class="error" aria-live="polite"></span>
         </div>
         <div class="form-group">
-            <label for="exhibitID">Exhibit ID</label>
-            <input type="text" class="form-control" id="exhibitID" form="myForm" aria-describedby="nameHelp" placeholder="Enter a numbered ID" name="ID" value="<%= recommended %>" required pattern="<%= regex %>">
-            <small id="nameHelp" class="form-text text-muted">This is the ID that users will use to find this exhibit.</small>
+            <label for="ID">Exhibit ID</label>
+            <input type="text" class="form-control" id="ID" aria-describedby="idHelp" placeholder="Enter a numbered ID" name="ID" value="<%= recommended %>" required pattern="<%= regex %>">
+            <small id="idHelp" class="form-text text-muted">This is the ID that users will use to find this exhibit.</small>
             <span id="idError" class="error" aria-live="polite"></span>
         </div>
         <label for="chooseType">Exhibit Type</label>
@@ -147,7 +147,7 @@
         }
     });
     
-    var exhibitID = document.getElementById("exhibitID");
+    var exhibitID = document.getElementById("ID");
     
     exhibitID.addEventListener("input", function (event) {
         if(exhibitID.validity.patternMismatch) {

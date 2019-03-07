@@ -10,11 +10,10 @@ var privacyOptions = ["Private", "Hidden", "Public"];
 
 module.exports = function(app, passport) {
     
-    app.use(bodyParser.urlencoded({
-        extended: true
-    }));
-    
-    app.use(bodyParser.json());
+    app.use( bodyParser.json() );       // to support JSON-encoded bodies
+    app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+      extended: true
+    })); 
     
     // route middleware to make sure a user is logged in
     function isLoggedIn(req, res, next) {
@@ -180,6 +179,7 @@ module.exports = function(app, passport) {
         });
     });
     app.post("/create/exhibit/", isLoggedIn, function(req,res) {
+        console.log(req.body);
         var n = req.body.name,
             id = req.body.ID,
             visibility = req.body.visibility === "yes",
