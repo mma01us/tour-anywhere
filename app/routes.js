@@ -127,8 +127,32 @@ module.exports = function(app, passport) {
     });
     //create a new exhibit
     app.get("/create/exhibit/:id", isLoggedIn, function(req,res) {
-        res.render("../client/views/createexhibit.ejs", {
-            id : req.params["id"]
+        var ids = [];
+        var r = 1;
+        var regex = "";
+        Tour.find({ _id : req.params["id"], uid : req.user._id }, function (err, docs) {
+            // if there are any errors, return the error before anything else
+            if (err || docs.length === 0){
+                console.log("Tour not found");
+                console.log(err);
+                res.redirect("/home");
+            }
+            else {
+                for (var i = 0; i < docs[0].exhibits.length; i++) {
+                    ids.push(docs[0].exhibits[i].eid);
+                }
+                while(ids.indexOf(r) != -1){
+                    r++;
+                }
+                regex = "^(?!" + ids.join("$)(?!") + "$)\\d*$";
+                console.log(regex);
+                res.render("../client/views/createexhibit.ejs", {
+                    id : req.params["id"],
+                    ids : ids,
+                    regex : regex,
+                    recommended : r
+                });
+            }
         });
     });
     //created a tour
@@ -285,8 +309,12 @@ module.exports = function(app, passport) {
         var hasText = req.body.text != null,
             hasImage = req.body.image != null,
             hasAudio = req.body.audio != null;
+            
+        console.log(req.body);
+            
+        console.log(req.body.viewable);
         
-        var visible = req.body.visibility == "yes"; //weird and reversed for some reason
+        var visible = req.body.viewable === "yes";
         
         //var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
         
@@ -491,10 +519,11 @@ module.exports = function(app, passport) {
     });
     app.get("/delete/exhibit/:tid/:eid", isLoggedIn, function(req, res){
         console.log("Deleted exhibit with id " + req.params["eid"]);
-        Tour.find({ _id : ObjectID(req.body.tourid), uid : ObjectID(req.user._id) }, function (err, docs) {
+        Tour.find({ _id : ObjectID(req.params["tid"]), uid : ObjectID(req.user._id) }, function (err, docs) {
             // if there are any errors, return the error before anything else
                 if (err || docs.length === 0){
-                    console.log(err);
+                    console.log("Error: " + err);
+                    console.log("Got " + docs.length + " files.");
                 }
                 else {
                     var ind = 0;
@@ -569,6 +598,10 @@ module.exports = function(app, passport) {
     
     app.get("/js/:file", function(req, res){
         res.sendFile("/home/ubuntu/workspace/client/js/" + req.params["file"]);
+    });
+    
+    app.get("/js/validate-bootstrap/validate-bootstrap.jquery.min.js", function(req, res){
+        res.sendFile("/home/ubuntu/workspace/client/js/validate-bootstrap.jquery-master/build/validate-bootstrap.jquery.min.js");
     });
     
     app.get("/res/:file", function(req, res){

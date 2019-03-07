@@ -71,29 +71,24 @@
             <label for="form-check" class="col col-md-4">Allow users to find and view this exhibit?</label>
             <div class="form-check" class="col col-md-auto">
                 <div class="pretty p-icon p-toggle p-plain">
-                    <% if(!visibility){%>
-                    <input type="checkbox" value="yes" name="visibility">
+                    <input type="checkbox" value="yes" name="viewable">
+                    <% if(!visibility){ %>
                         <div class="state p-success-o p-on">
                             <i class="far fa-eye"></i>
                             <label>Showing</label>
                         </div>
                         <div class="state p-off">
-                            <i class="far fa-eye-slash"></i>
-                            <label>Hidden</label>
-                        </div>
-                    </input>
-                    <% } if(visibility) { %>
-                    <input type="checkbox" value="yes" name="visibility">
-                        <div class="state p-off">
+                    <% } else { %>
+                        <div class="state p-success-o p-off">
                             <i class="far fa-eye"></i>
                             <label>Showing</label>
                         </div>
-                        <div class="state p-success-o p-on">
-                            <i class="far fa-eye-slash"></i>
-                            <label>Hidden</label>
-                        </div>
-                    </input>
+                        <div class="state p-on">
                     <% } %>
+                            <i class="far fa-eye-slash"></i>
+                            <label>Hidden</label>
+                        </div>
+                    </input>
                 </div>
             </div>
         </div>
