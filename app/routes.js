@@ -311,10 +311,17 @@ module.exports = function(app, passport) {
             hasAudio = req.body.audio != null;
             
         console.log(req.body);
-            
-        console.log(req.body.viewable);
         
-        var visible = req.body.viewable === "yes";
+        var visible = false;
+        
+        if(req.body.visibility === 'showing')
+            visible = true;
+        else if(req.body.visibility === 'hidden')
+            visible = false;
+        else if(req.body.current === 'true')
+                visible = true;
+        else if(req.body.current === 'false')
+                visible = false;
         
         //var exhibit = { eid : req.body.id, name : req.body.n, viewable : req.body.visibility, lastEdit : myDateString };
         
