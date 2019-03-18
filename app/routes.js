@@ -601,19 +601,19 @@ module.exports = function(app, passport) {
     });
     
     app.get("/css/:file", function(req, res){
-        res.sendFile("/home/ubuntu/workspace/client/css/" + req.params["file"]);
+        res.sendFile("../client/css/" + req.params["file"]);
     });
     
     app.get("/js/:file", function(req, res){
-        res.sendFile("/home/ubuntu/workspace/client/js/" + req.params["file"]);
+        res.sendFile("../client/js/" + req.params["file"]);
     });
     
     app.get("/js/validate-bootstrap/validate-bootstrap.jquery.min.js", function(req, res){
-        res.sendFile("/home/ubuntu/workspace/client/js/validate-bootstrap.jquery-master/build/validate-bootstrap.jquery.min.js");
+        res.sendFile("../client/js/validate-bootstrap.jquery-master/build/validate-bootstrap.jquery.min.js");
     });
     
     app.get("/res/:file", function(req, res){
-        res.sendFile("/home/ubuntu/workspace/client/res/" + req.params["file"]);
+        res.sendFile("../client/res/" + req.params["file"]);
     });
     // =====================================
     // LOGOUT ==============================
