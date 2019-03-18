@@ -27,18 +27,25 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/res/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <style>
-        body        { padding-top:80px; }
-    </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+        <a class="navbar-brand" href="/home">
+            <img src="/res/favicon-96x96.png" width="50" height="50" class="d-inline-block align-middle" alt="">
+            Tour Anywhere
+        </a>
+    </ul>
+        <button class="btn btn-outline-primary">
+            <a href="/logout" class="btn btn-default btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </button>
+    </div>
+</nav>
 <div class="container">
-    <div class="page-header text-right">
-        <a href="/logout" class="btn btn-default btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-    <div class="text-left">
-        <a href="/home" class="btn btn-primary"><i class="fas fa-home"></i> Home</a>
-    </div>
     <div class="page-header text-center">
         <h1 class="display-4"><%= n %></h1>
     </div>

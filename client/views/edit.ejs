@@ -27,19 +27,25 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/res/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <style>
-        body        { padding-top:80px; }
-    </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+        <a class="navbar-brand" href="/home">
+            <img src="/res/favicon-96x96.png" width="50" height="50" class="d-inline-block align-middle" alt="">
+            Tour Anywhere
+        </a>
+    </ul>
+        <button class="btn btn-outline-primary">
+            <a href="/logout" class="btn btn-default btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </button>
+    </div>
+</nav>
 <div class="container">
-
-    <div class="page-header text-right">
-        <a href="/logout" class="btn btn-default btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-    <div class="text-left">
-        <a href="/home" class="btn btn-primary"><i class="fas fa-home"></i> Home</a>
-    </div>
     <div class="page-header text-center">
         <h1 class="display-4"><%= tour.name %> <a href="/tour/settings/<%= tour._id %>" style="color: #333;"><i class="fas fa-cog"></i></a></h1>
     </div>
@@ -64,7 +70,14 @@
                 ondblclick="editExhibit('<%= tour._id %>', '<%= exhibit.eid %>');" onclick="">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= exhibit.name %></h5>
-                        <small>Exhibit ID: <%= exhibit.eid %></small>
+                        <div>
+                            <small>Exhibit ID: <%= exhibit.eid %></small>
+                            <% if(exhibit.visibility) {%>
+                            <small><i class="far fa-eye"></i></small>
+                            <% } else { %>
+                            <small><i class="far fa-eye-slash"></i></small>
+                            <% } %>
+                        </div>
                     </div>
                     <div class="d-flex bd-highlight">
                         <% if(exhibit.audio != null || exhibit.imageAudio != null) {%>
@@ -80,7 +93,7 @@
                         <div class="icon bd-highlight">
                             <small><i class="far fa-file-alt"></i></small>
                         </div>
-                        <div class="ml-auto bd-highlight" onclick="window.location='/delete/exhibit/<%= tour._id %>/<%= exhibit.eid %>'">
+                        <div class="ml-auto bd-highlight" onclick="confirmDelete('/delete/exhibit/<%= tour._id %>/<%= exhibit.eid %>', '<%= exhibit.eid %>');">
                             <small><i class="fas fa-trash-alt"></i></small>
                         </div>
                     </div>
@@ -114,7 +127,6 @@
         </div>
     </div>
 </div>
-</body>
 <script type="text/javascript">
     var activeDivAttr;
 
@@ -131,5 +143,15 @@
         
         activeDivAttr= $(this).attr('id');
     });
+    
+    function confirmDelete(url, name) {
+        activeDivAttr = '';
+        var r = confirm("Are you sure you want to delete the exhibit with ID '" + name + "'?");
+        if (r == true) {
+            window.location=url;
+        } else {
+        }
+    }
 </script>
+</body>
 </html>

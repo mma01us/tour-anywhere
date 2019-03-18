@@ -188,6 +188,7 @@ module.exports = function(app, passport) {
             audio = req.body.audio === "yes",
             tourid = req.body.tourid;
         
+        
         res.render("../client/views/createexhibit2.ejs", {
             n : n,
             id : id,
@@ -220,9 +221,9 @@ module.exports = function(app, passport) {
                 var text = true;
                 
                 if(exhibit.audio != null)
-                    var audio = true;
+                    var audio = exhibit.audio;
                 if(exhibit.image != null)
-                    var image = true;
+                    var image = exhibit.image;
                     
             var t;
             

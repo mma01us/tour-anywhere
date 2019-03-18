@@ -27,17 +27,27 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/res/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <style>
-        body        { padding-top:80px; }
-    </style>
 </head>
 <body>
-<div class="container">
-    <div class="page-header text-right">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarText">
+<ul class="navbar-nav mr-auto">
+    <a class="navbar-brand" href="/home">
+        <img src="/res/favicon-96x96.png" width="50" height="50" class="d-inline-block align-middle" alt="">
+        Tour Anywhere
+    </a>
+</ul>
+    <button class="btn btn-outline-primary">
         <a href="/logout" class="btn btn-default btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-    <div class="text-left">
-        <a href="/home" class="btn btn-primary"><i class="fas fa-home"></i> Home</a>
+    </button>
+</div>
+</nav>
+<div class="container">
+    <div class="page-header text-center">
+        <h1 class="display-4">Edit Exhibit <%= id %></h1>
     </div>
 
     <form action='/edit/exhibit' method='post'>
@@ -46,32 +56,33 @@
             <input type="text" class="form-control" id="exhibitName" aria-describedby="nameHelp" placeholder="Enter a description, caption, or transcription" name="n" value="<%= n %>">
             <small id="nameHelp" class="form-text text-muted">The name of your exhibit.</small>
         </div>
-        <% if(text){ %>
+        <% if(text != null){ %>
             <div class="form-group">
                 <label for="exhibitText">Text</label>
                 <input type="text" class="form-control" id="exhibitText" aria-describedby="textHelp" placeholder="Enter a description, caption, or transcription" name="text" value="<%= t %>">
                 <small id="textHelp" class="form-text text-muted">This text will appear as a description, image caption, or transcription.</small>
             </div>
         <% } %>
-        <% if(image){ %>
-            <div class="form-group">
+        <% if(image != null){ %>
+            <div class="form-group" style="margin-bottom: 1%">
                 <label for="imageUpload">Image</label>
                 <br>
                 <input type="hidden" role="uploadcare-uploader" name="image" data-public-key="1346ee3e86abba71f8ed" data-preview-step="true" data-system-dialog="false" data-effects="crop,rotate,mirror" />
             </div>
+            <img src="<%= image.imageLink %>" alt="Image" width="500vw" style="margin-bottom: 1%" class="img-thumbnail">
         <% } %>
-        <% if(audio){ %>
+        <% if(audio != null){ %>
             <div class="form-group">
                 <label for="audioUpload">Audio</label>
                 <br>
                 <input type="hidden" role="uploadcare-uploader" name="content" data-public-key="1346ee3e86abba71f8ed" data-preview-step="true" data-system-dialog="true" data-effects="crop,rotate,mirror" />
+                <a href="<%= audio.audioLink %>">Audio Link</a>
             </div>
         <% } %>
         <div class="form-group row">
             <label for="form-check" class="col col-md-4">Allow users to find and view this exhibit?</label>
             <div class="form-check" class="col col-md-auto">
                 <div class="pretty p-icon p-toggle p-plain">
-                    <p><%= visibility %></p>
                     <% if(!visibility){ %> <!-- IF hidden / visiblity = false -->
                         <input type="checkbox" value="showing" name="visibility">
                             <div class="state p-success-o p-on">
