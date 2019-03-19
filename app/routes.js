@@ -5,6 +5,7 @@ var mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 var ObjectID = require('mongodb').ObjectID;
 var tours = mongoose.model("Tour");
+var path = require('path');
 
 var privacyOptions = ["Private", "Hidden", "Public"];
 
@@ -137,6 +138,7 @@ module.exports = function(app, passport) {
                 res.redirect("/home");
             }
             else {
+                var tour = docs[0];
                 for (var i = 0; i < docs[0].exhibits.length; i++) {
                     ids.push(docs[0].exhibits[i].eid);
                 }
@@ -146,6 +148,7 @@ module.exports = function(app, passport) {
                 regex = "^(?!" + ids.join("$)(?!") + "$)\\d*$";
                 console.log(regex);
                 res.render("../client/views/createexhibit.ejs", {
+                    tour : tour,
                     id : req.params["id"],
                     ids : ids,
                     regex : regex,
@@ -186,7 +189,8 @@ module.exports = function(app, passport) {
             text = true,
             image = req.body.image === "yes",
             audio = req.body.audio === "yes",
-            tourid = req.body.tourid;
+            tourid = req.body.tourid,
+            tourname = req.body.tourname;
         
         
         res.render("../client/views/createexhibit2.ejs", {
@@ -196,7 +200,8 @@ module.exports = function(app, passport) {
             text : text,
             image : image,
             audio : audio,
-            tourid : tourid
+            tourid : tourid,
+            tourname : tourname
         });
     });
     
@@ -601,19 +606,15 @@ module.exports = function(app, passport) {
     });
     
     app.get("/css/:file", function(req, res){
-        res.sendFile("../client/css/" + req.params["file"]);
+        res.sendFile(path.resolve(__dirname + "/../client/css/" + req.params["file"]));
     });
     
     app.get("/js/:file", function(req, res){
-        res.sendFile("../client/js/" + req.params["file"]);
-    });
-    
-    app.get("/js/validate-bootstrap/validate-bootstrap.jquery.min.js", function(req, res){
-        res.sendFile("../client/js/validate-bootstrap.jquery-master/build/validate-bootstrap.jquery.min.js");
+        res.sendFile(path.resolve(__dirname + "/../client/js/" + req.params["file"]));
     });
     
     app.get("/res/:file", function(req, res){
-        res.sendFile("../client/res/" + req.params["file"]);
+        res.sendFile(path.resolve(__dirname + "/../client/res/" + req.params["file"]));
     });
     // =====================================
     // LOGOUT ==============================
@@ -669,14 +670,4 @@ module.exports = function(app, passport) {
     // facebook -------------------------------
     // twitter --------------------------------
     // google ---------------------------------
-
-        // send to google to do the authentication
-        app.get("/connect/google", passport.authorize("google", { scope : ["profile", "email"] }));
-
-        // the callback after google has authorized the user
-        app.get("/connect/google/callback",
-            passport.authorize("google", {
-                successRedirect : "/home",
-                failureRedirect : "/"
-            }));
 };
