@@ -585,7 +585,9 @@ module.exports = function(app, passport) {
     });
     app.post("/edit/tour/:id", isLoggedIn, function(req,res) {
         
-        var myDateString = Date();
+        var myDateString = new Date();
+        
+        console.log(myDateString.toUTCString());
         
         var n = req.body.name,
             desc = req.body.desc,

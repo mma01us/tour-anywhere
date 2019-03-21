@@ -75,7 +75,16 @@
     </div>
 </nav>
 <div class="container">
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item"><a href="/edit/<%= id %>"><%= tour.name %></a></li>
+            <li class="breadcrumb-item active" aria-current="page">New Exhibit</li>
+        </ol>
+    </nav>
+    <div class="page-header text-center">
+        <h1 class="display-4">Create Exhibit</h1>
+    </div>
     <form action='/create/exhibit' method='POST' id="form" novalidate>
         <div class="form-group">
             <label for="exhibitName">Exhibit Name</label>
@@ -129,6 +138,7 @@
             </div>
         </div>
         <input type="text" value="<%= id %>" name="tourid" hidden></input>
+        <input type="text" value="<%= tour.name %>" name="tourname" hidden></input>
         <input type="text" value="<%= ids %>" name="ids" hidden></input>
         <div style="text-align: center">
             <span>

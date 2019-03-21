@@ -46,6 +46,13 @@
 </div>
 </nav>
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item"><a href="/edit/<%= tour._id %>"><%= tour.name %></a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Exhibit</li>
+        </ol>
+    </nav>
     <div class="page-header text-center">
         <h1 class="display-4">Edit Exhibit <%= id %></h1>
     </div>
