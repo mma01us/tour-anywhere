@@ -34,12 +34,14 @@
     <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-        <a class="navbar-brand" href="/home">
-            <img src="/res/favicon-96x96.png" width="50" height="50" class="d-inline-block align-middle" alt="">
-            Tour Anywhere
-        </a>
-    </ul>
+        <ul class="navbar-nav mr-auto">
+            <a class="navbar-brand" href="/home">
+                <img src="/res/favicon-96x96.png" width="50" height="50" class="d-inline-block align-middle" alt="">
+                Tour Anywhere
+            </a>
+        </ul>
+        <input class="form-control mr-sm-2" type="search" style="background-image: url('https://www.w3schools.com/css/searchicon.png'); background-position: 10px 8px; background-repeat: no-repeat; padding: 12px 20px 12px 40px;" 
+        placeholder="Search" aria-label="Search" onkeyup="search();" id="searchbar">
         <button class="btn btn-outline-primary">
             <a href="/logout" class="btn btn-default btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </button>
@@ -60,7 +62,7 @@
     </div>
 
     <div class="row">
-        <div class="list-group">
+        <div class="list-group" id="list">
             <p id="length" style="display: none"><%= tours.length %></p>
             <% for(var i = 0; i < tours.length; i++) {%>
                <div2 id='<%= tours[i]._id %>' class="list-group-item list-group-item-action flex-column align-items-start selectable-list-item" ondblclick="window.location='edit/<%= tours[i]._id %>'" tabindex = -1>
@@ -118,5 +120,28 @@
         
         activeDivAttr= $(this).attr('id');
     });
+    
+    function search() {
+        // Declare variables
+        var input, filter, list, div2, a, i, txtValue;
+        input = document.getElementById('searchbar');
+        filter = input.value.toUpperCase();
+        list = document.getElementById("list");
+        div2 = list.getElementsByTagName('div2');
+        
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < div2.length; i++) {
+            a = div2[i].getElementsByTagName("h5")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) 
+            {
+                div2[i].style.display = "";
+            } 
+            else 
+            {
+                div2[i].style.display = "none";
+            }
+        }
+    }
 </script>
 </html>
