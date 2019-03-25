@@ -104,22 +104,6 @@
         
         last.innerHTML = "Last edited " + d;
     }
-
-    var activeDivAttr;
-
-    $('div2').mousedown(function(e) {
-        e.stopImmediatePropagation(); //stops event bubbling
-        
-        console.log($(this).attr('id'));
-        
-        if (activeDivAttr == $(this).attr('id')) {
-            window.location = 'edit/' + $(this).attr('id');
-        } else {
-            this.focus();  //stops default browser action (focus)
-        }
-        
-        activeDivAttr= $(this).attr('id');
-    });
     
     function search() {
         // Declare variables
