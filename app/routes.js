@@ -562,21 +562,20 @@ module.exports = function(app, passport) {
                             console.log('Error setting to null object: ' + err);
                         } else {
                             console.log('' + result + ' document(s) set to null');
-                        }
-                    });
-                    
-                    tours.update(
-                    {
-                        "_id" : ObjectID(req.params["tid"])
-                    }, 
-                    {
-                        $pull : { "exhibits" : null }
-                    },
-                    function(err, result){
-                        if (err) {
-                            console.log('Error deleting object: ' + err);
-                        } else {
-                            console.log('' + result + ' document(s) deleted');
+                            tours.update(
+                            {
+                                "_id" : ObjectID(req.params["tid"])
+                            }, 
+                            {
+                                $pull : { "exhibits" : null }
+                            },
+                            function(err, result){
+                                if (err) {
+                                    console.log('Error deleting object: ' + err);
+                                } else {
+                                    console.log('' + result + ' document(s) deleted');
+                                }
+                            });
                         }
                     });
                 }
