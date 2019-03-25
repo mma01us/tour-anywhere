@@ -41,9 +41,11 @@
             Tour Anywhere
         </a>
     </ul>
-        <button class="btn btn-outline-primary">
-            <a href="/logout" class="btn btn-default btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </button>
+    <input class="form-control mr-sm-2" type="search" style="background-image: url('https://www.w3schools.com/css/searchicon.png'); background-position: 10px 8px; background-repeat: no-repeat; padding: 12px 20px 12px 40px;" 
+        placeholder="Search" aria-label="Search" onkeyup="search();" id="searchbar">
+    <button class="btn btn-outline-primary">
+        <a href="/logout" class="btn btn-default btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </button>
     </div>
 </nav>
 <div class="container">
@@ -71,7 +73,7 @@
     <% } %>
 
     <div class="row">
-        <div class="list-group">
+        <div class="list-group" id="list">
             <p id="length" style="display: none"><%= tour.exhibits.length %></p>
             <% var i = 0; %>
             <% tour.exhibits.forEach(function showitem(exhibit) {%>
@@ -168,6 +170,29 @@
         if (r == true) {
             window.location=url;
         } else {
+        }
+    }
+    
+    function search() {
+        // Declare variables
+        var input, filter, list, div2, a, i, txtValue;
+        input = document.getElementById('searchbar');
+        filter = input.value.toUpperCase();
+        list = document.getElementById("list");
+        div2 = list.getElementsByTagName('div2');
+        
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < div2.length; i++) {
+            a = div2[i].getElementsByTagName("h5")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) 
+            {
+                div2[i].style.display = "";
+            } 
+            else 
+            {
+                div2[i].style.display = "none";
+            }
         }
     }
 </script>
