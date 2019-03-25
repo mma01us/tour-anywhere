@@ -396,7 +396,7 @@ module.exports = function(app, passport) {
                     var p1 = 'exhibits.' + ind + '.name';
                     var p2 = 'exhibits.' + ind + '.viewable';
                     var p3 = 'exhibits.' + ind + '.lastEdit';
-                    var p4 = 'exhibits.' + ind + '.imageAudio';
+                    var p4 = 'exhibits.' + ind + '.image';
                     
                     tours.update(
                     {
