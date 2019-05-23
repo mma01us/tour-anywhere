@@ -14,3 +14,11 @@
 ## Project Proposal
 
 > The Project Proposal paper can be found [here](https://docs.google.com/document/d/1dIIUT3SZDJj8tq9rataSNt5NmO-lg5G2XwD13eAStcQ/edit?usp=sharing) and can be accessed by any fcpsschools user.
+
+## Final Paper
+
+> The Final Paper can be found [here](https://docs.google.com/document/d/18NaqAFEGBedVAQDy6jLHYSGH3-nNaLi2OA-lC-NPu-I/edit?usp=sharing) and can be accessed by any fcpsschools user.
+
+## Final Presentation
+
+> The Final Presentation can be found [here](https://docs.google.com/presentation/d/1dklhu7z_ZwqRYY77XikaXMZW5hk1HwlpuN_WRGeXaqY/edit?usp=sharing) and can be accessed by any fcpsschools user.
