@@ -20,7 +20,7 @@ module.exports = {
     'googleAuth' : {
         'clientID'      : '990788900195-mu1g359bdrffcvb4ka9dhfp4cqacuab6.apps.googleusercontent.com',
         'clientSecret'  : 'MDNtPq2elRzJMx_8zkocg4T7',
-        'callbackURL'   : 'https://linux-env-mma2019-1.c9users.io/auth/google/callback'
+        'callbackURL'   : 'https://tour-anywhere.herokuapp.com/auth/google/callback'
     }
 
 };

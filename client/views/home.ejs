@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
@@ -65,7 +66,7 @@
         <div class="list-group" id="list">
             <p id="length" style="display: none"><%= tours.length %></p>
             <% for(var i = 0; i < tours.length; i++) {%>
-               <div2 id='<%= tours[i]._id %>' class="list-group-item list-group-item-action flex-column align-items-start selectable-list-item" ondblclick="window.location='edit/<%= tours[i]._id %>'" tabindex = -1>
+               <div2 id='<%= tours[i]._id %>' class="list-group-item list-group-item-action flex-column align-items-start selectable-list-item" tap="window.location='edit/<%= tours[i]._id %>'" ondblclick="window.location='edit/<%= tours[i]._id %>'" tabindex = -1>
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= tours[i].name %></h5>
                         <% if(tours[i].privacy === 0) {%>
