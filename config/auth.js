@@ -14,7 +14,7 @@ module.exports = {
     'twitterAuth' : {
         'consumerKey'       : '',
         'consumerSecret'    : '',
-        'callbackURL'       : ''
+        'callbackURL'       : 'https://tour-anywhere.herokuapp.com/auth/twitter/callback'
     },
 
     'googleAuth' : {
