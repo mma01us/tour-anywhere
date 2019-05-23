@@ -135,14 +135,14 @@
                         <% if(exhibit.text != null) {%>
                             Text description
                         <% } %>
-                        <% if(exhibit.image != null) {%>
+                        <% if(exhibit.imageAudio != null) {%>
+                            Image, audio, and text transcript or description
+                        <% } %>
+                        <% else if(exhibit.image != null) {%>
                             Image with text description
                         <% } %>
-                        <% if(exhibit.audio != null) {%>
+                        <% else if(exhibit.audio != null) {%>
                             Audio with text transcript or description
-                        <% } %>
-                        <% if(exhibit.imageAudio != null) {%>
-                            Image, Audio, and text transcript or description
                         <% } %>
                     </p>
                     <small id="last<%= i %>"><%= exhibit.lastEdit %></small>
