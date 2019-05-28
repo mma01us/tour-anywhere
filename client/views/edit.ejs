@@ -138,10 +138,10 @@
                         <% if(exhibit.imageAudio != null) {%>
                             Image, audio, and text transcript or description
                         <% } %>
-                        <% else if(exhibit.image != null) {%>
+                        <% if(exhibit.image != null) {%>
                             Image with text description
                         <% } %>
-                        <% else if(exhibit.audio != null) {%>
+                        <% if(exhibit.audio != null) {%>
                             Audio with text transcript or description
                         <% } %>
                     </p>
@@ -177,6 +177,7 @@
         if (r == true) {
             window.location=url;
         } else {
+            console.log("n");
         }
     }
     
