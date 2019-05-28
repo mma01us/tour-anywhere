@@ -8,19 +8,19 @@ module.exports = {
     'facebookAuth' : {
         'clientID'      : '907128619629590', // your App ID
         'clientSecret'  : '345ff8f774bf46aabd99d272a52ff002Reset', // your App Secret
-        'callbackURL'   : 'https://tour-anywhere.herokuapp.com/connect/facebook/callback'
+        'callbackURL'   : 'https://tour-anywhere.herokuapp.com/auth/facebook/callback'
     },
 
     'twitterAuth' : {
         'consumerKey'       : 'aa',
         'consumerSecret'    : 'aa',
-        'callbackURL'       : 'https://tour-anywhere.herokuapp.com/connect/twitter/callback'
+        'callbackURL'       : 'https://tour-anywhere.herokuapp.com/auth/twitter/callback'
     },
 
     'googleAuth' : {
         'clientID'      : '990788900195-mu1g359bdrffcvb4ka9dhfp4cqacuab6.apps.googleusercontent.com',
         'clientSecret'  : 'MDNtPq2elRzJMx_8zkocg4T7',
-        'callbackURL'   : 'https://tour-anywhere.herokuapp.com/connect/google/callback'
+        'callbackURL'   : 'https://tour-anywhere.herokuapp.com/auth/google/callback'
     }
 
 };
